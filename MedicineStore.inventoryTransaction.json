@@ -1,0 +1,95 @@
+[{
+  "_id": {
+    "$oid": "66f6ea6e84508224ba5c1609"
+  },
+  "date": {
+    "$date": "2023-03-08T17:00:00.000Z"
+  },
+  "type": [
+    "purchase",
+    "sale",
+    "return",
+    "adjustment"
+  ],
+  "product": {
+    "$oid": "66f6eb6484508224ba5c160a"
+  },
+  "quantity": 50,
+  "reference": "INV123"
+},
+{
+  "_id": {
+    "$oid": "66f771d1b5e8883b54190f4a"
+  },
+  "date": {
+    "$date": "2023-03-08T17:00:00.000Z"
+  },
+  "type": [
+    "purchase",
+    "sale",
+    "return",
+    "adjustment"
+  ],
+  "product": {
+    "$oid": "66f6eb6484508224ba5c160a"
+  },
+  "quantity": 10,
+  "reference": "INV124"
+},
+{
+  "_id": {
+    "$oid": "66f771dbb5e8883b54190f4b"
+  },
+  "date": {
+    "$date": "2023-03-08T17:00:00.000Z"
+  },
+  "type": [
+    "purchase",
+    "sale",
+    "return",
+    "adjustment"
+  ],
+  "product": {
+    "$oid": "66f6eb6484508224ba5c160a"
+  },
+  "quantity": 20,
+  "reference": "INV125"
+},
+{
+  "_id": {
+    "$oid": "66f771e3b5e8883b54190f4c"
+  },
+  "date": {
+    "$date": "2023-03-08T17:00:00.000Z"
+  },
+  "type": [
+    "purchase",
+    "sale",
+    "return",
+    "adjustment"
+  ],
+  "product": {
+    "$oid": "66f6eb6484508224ba5c160a"
+  },
+  "quantity": 30,
+  "reference": "INV126"
+},
+{
+  "_id": {
+    "$oid": "66f771ecb5e8883b54190f4d"
+  },
+  "date": {
+    "$date": "2023-03-08T17:00:00.000Z"
+  },
+  "type": [
+    "purchase",
+    "sale",
+    "return",
+    "adjustment"
+  ],
+  "product": {
+    "$oid": "66f6eb6484508224ba5c160a"
+  },
+  "quantity": 40,
+  "reference": "INV127"
+}]

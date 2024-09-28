@@ -1,0 +1,84 @@
+[{
+  "_id": {
+    "$oid": "66f6ece384508224ba5c1612"
+  },
+  "date": {
+    "$date": "2022-04-05T17:00:00.000Z"
+  },
+  "type": [
+    "sales",
+    "inventory",
+    "expiry",
+    "financial"
+  ],
+  "data": {
+    "totalSales": 1500,
+    "itemsSold": 300
+  },
+  "generatedBy": {
+    "$oid": "66f6edc984508224ba5c1613"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f7715ab5e8883b54190f41"
+  },
+  "date": {
+    "$date": "2022-04-05T17:00:00.000Z"
+  },
+  "type": [
+    "sales",
+    "inventory",
+    "expiry",
+    "financial"
+  ],
+  "data": {
+    "totalSales": 1000,
+    "itemsSold": 200
+  },
+  "generatedBy": {
+    "$oid": "66f6edc984508224ba5c1613"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f7716bb5e8883b54190f42"
+  },
+  "date": {
+    "$date": "2022-04-05T17:00:00.000Z"
+  },
+  "type": [
+    "sales",
+    "inventory",
+    "expiry",
+    "financial"
+  ],
+  "data": {
+    "totalSales": 2000,
+    "itemsSold": 500
+  },
+  "generatedBy": {
+    "$oid": "66f6edc984508224ba5c1613"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f77174b5e8883b54190f43"
+  },
+  "date": {
+    "$date": "2022-04-05T17:00:00.000Z"
+  },
+  "type": [
+    "sales",
+    "inventory",
+    "expiry",
+    "financial"
+  ],
+  "data": {
+    "totalSales": 2500,
+    "itemsSold": 1000
+  },
+  "generatedBy": {
+    "$oid": "66f6edc984508224ba5c1613"
+  }
+}]

@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "66f6e34284508224ba5c1600"
+  },
+  "username": "tuan1",
+  "password": "123",
+  "role": [
+    "admin",
+    "manager",
+    "employee",
+    "customer",
+    "supplier"
+  ],
+  "profile": {
+    "name": "Tuan Ton",
+    "email": "tuan1@gmail.com",
+    "address": "123 Hoa Hai, Da Nang",
+    "contact": "12345678"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f7708db5e8883b54190f38"
+  },
+  "username": "kiet1",
+  "password": "123",
+  "role": [
+    "admin",
+    "manager",
+    "employee",
+    "customer",
+    "supplier"
+  ],
+  "profile": {
+    "name": "Kiet Nguyen",
+    "email": "kiet1@gmail.com",
+    "address": "124 Hoa Hai, Da Nang",
+    "contact": "12345677"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f770afb5e8883b54190f39"
+  },
+  "username": "duy1",
+  "password": "123",
+  "role": [
+    "admin",
+    "manager",
+    "employee",
+    "customer",
+    "supplier"
+  ],
+  "profile": {
+    "name": "Duy Le",
+    "email": "Duy1@gmail.com",
+    "address": "125 Hoa Hai, Da Nang",
+    "contact": "12345676"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f770cfb5e8883b54190f3a"
+  },
+  "username": "tri1",
+  "password": "123",
+  "role": [
+    "admin",
+    "manager",
+    "employee",
+    "customer",
+    "supplier"
+  ],
+  "profile": {
+    "name": "Tri Nguyen",
+    "email": "tri1@gmail.com",
+    "address": "126 Hoa Hai, Da Nang",
+    "contact": "12345675"
+  }
+}]
