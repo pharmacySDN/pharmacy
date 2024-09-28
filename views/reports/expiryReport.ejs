@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expiry Report</title>
+</head>
+<body>
+    <h1>Expiry Report</h1>
+    <p>Products expiring within the next 30 days:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Expiry Date</th>
+                <th>Current Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% expiringProducts.forEach(product => { %>
+                <tr>
+                    <td><%= product.name %></td>
+                    <td><%= product.expiryDate.toLocaleDateString() %></td>
+                    <td><%= product.stock %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <a href="/reports">Back to Dashboard</a>
+</body>
+</html>

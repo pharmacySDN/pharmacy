@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale Details</title>
+</head>
+<body>
+    <h1>Sale Details</h1>
+    <p>Date: <%= sale.date.toLocaleDateString() %></p>
+    <p>Customer: <%= sale.customer.profile.name %></p>
+    <p>Total: <%= sale.total %></p>
+    <p>Payment Method: <%= sale.paymentMethod %></p>
+    <p>Status: <%= sale.status %></p>
+    <h2>Items</h2>
+    <ul>
+        <% sale.items.forEach(item => { %>
+            <li><%= item.product.name %> - Quantity: <%= item.quantity %>, Price: <%= item.price %></li>
+        <% }); %>
+    </ul>
+    <form action="/sales/<%= sale._id %>/status" method="POST">
+        <select name="status">
+            <option value="completed" <%= sale.status === 'completed' ? 'selected' : '' %>>Completed</option>
+            <option value="returned" <%= sale.status === 'returned' ? 'selected' : '' %>>Returned</option>
+            <option value="cancelled" <%= sale.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+        </select>
+        <button type="submit">Update Status</button>
+    </form>
+    <a href="/sales">Back to Sales List</a>
+</body>
+</html>
