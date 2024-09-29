@@ -17,15 +17,21 @@
             </tr>
         </thead>
         <tbody>
-            <% expiringProducts.forEach(product => { %>
+            <% if (expiringProducts && expiringProducts.length > 0) { %>
+                <% expiringProducts.forEach(product => { %>
+                    <tr>
+                        <td><%= product.name %></td>
+                        <td><%= product.expiryDate.toLocaleDateString() %></td>
+                        <td><%= product.stock %></td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
                 <tr>
-                    <td><%= product.name %></td>
-                    <td><%= product.expiryDate.toLocaleDateString() %></td>
-                    <td><%= product.stock %></td>
+                    <td colspan="3">No products expiring within the next 30 days</td>
                 </tr>
-            <% }); %>
+            <% } %>
         </tbody>
     </table>
-    <a href="/reports">Back to Dashboard</a>
+    <a href="/api/reports/dashboard">Back to Dashboard</a>
 </body>
 </html>

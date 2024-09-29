@@ -20,8 +20,29 @@
             <li>No low stock products</li>
         <% } %>
     </ul>
-    <a href="/reports/sales">Generate Sales Report</a>
-    <a href="/reports/inventory">Generate Inventory Report</a>
-    <a href="/reports/expiry">Generate Expiry Report</a>
+    
+    <h2>Generate Sales Report</h2>
+    <form action="/api/reports/salesReport" method="GET">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required>
+    
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required>
+    
+        <button type="submit">Generate Report</button>
+    </form>
+
+    <h2>Generate Inventory Report</h2>
+    <form action="/api/reports/inventoryReport" method="GET">
+        <label for="inventoryStartDate">Start Date:</label>
+        <input type="date" id="inventoryStartDate" name="startDate" required>
+    
+        <label for="inventoryEndDate">End Date:</label>
+        <input type="date" id="inventoryEndDate" name="endDate" required>
+    
+        <button type="submit">Generate Inventory Report</button>
+    </form>
+
+    <a href="/api/reports/expiryReport">Generate Expiry Report</a>
 </body>
 </html>

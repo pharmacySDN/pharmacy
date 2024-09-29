@@ -20,22 +20,28 @@
             </tr>
         </thead>
         <tbody>
-            <% sales.forEach(sale => { %>
+            <% if (sales && sales.length > 0) { %>
+                <% sales.forEach(sale => { %>
+                    <tr>
+                        <td><%= sale.date.toLocaleDateString() %></td>
+                        <td><%= sale.customer.profile.name %></td>
+                        <td>
+                            <ul>
+                                <% sale.items.forEach(item => { %>
+                                    <li><%= item.product.name %> - <%= item.quantity %> x <%= item.price %></li>
+                                <% }); %>
+                            </ul>
+                        </td>
+                        <td><%= sale.total %></td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
                 <tr>
-                    <td><%= sale.date.toLocaleDateString() %></td>
-                    <td><%= sale.customer.profile.name %></td>
-                    <td>
-                        <ul>
-                            <% sale.items.forEach(item => { %>
-                                <li><%= item.product.name %> - <%= item.quantity %> x <%= item.price %></li>
-                            <% }); %>
-                        </ul>
-                    </td>
-                    <td><%= sale.total %></td>
+                    <td colspan="4">No sales recorded within the selected period</td>
                 </tr>
-            <% }); %>
+            <% } %>
         </tbody>
     </table>
-    <a href="/reports">Back to Dashboard</a>
+    <a href="/api/reports/dashboard">Back to Dashboard</a>
 </body>
 </html>

@@ -18,16 +18,22 @@
             </tr>
         </thead>
         <tbody>
-            <% productMovements.forEach(movement => { %>
+            <% if (productMovements && productMovements.length > 0) { %>
+                <% productMovements.forEach(movement => { %>
+                    <tr>
+                        <td><%= movement.product.name %></td>
+                        <td><%= movement.incomingQuantity %></td>
+                        <td><%= movement.outgoingQuantity %></td>
+                        <td><%= movement.incomingQuantity - movement.outgoingQuantity %></td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
                 <tr>
-                    <td><%= movement.product.name %></td>
-                    <td><%= movement.incomingQuantity %></td>
-                    <td><%= movement.outgoingQuantity %></td>
-                    <td><%= movement.incomingQuantity - movement.outgoingQuantity %></td>
+                    <td colspan="4">No inventory movements within the selected period</td>
                 </tr>
-            <% }); %>
+            <% } %>
         </tbody>
     </table>
-    <a href="/reports">Back to Dashboard</a>
+    <a href="/api/reports/dashboard">Back to Dashboard</a>
 </body>
 </html>

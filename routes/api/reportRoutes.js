@@ -3,8 +3,8 @@ const router = express.Router();
 const reportController = require('../../controllers/reportController');
 
 router.get('/dashboard', reportController.getDashboard);
-router.get('/sales', reportController.getSalesReport);
-router.get('/inventory', reportController.getInventoryReport);
-router.get('/expiry', reportController.getExpiryReport);
+router.get('/salesReport', reportController.getSalesReport);
+router.get('/inventoryReport', reportController.getInventoryReport);
+router.get('/expiryReport', reportController.getExpiryReport);
 
 module.exports = router;
