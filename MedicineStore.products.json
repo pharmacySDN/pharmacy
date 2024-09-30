@@ -1,0 +1,85 @@
+[{
+  "_id": {
+    "$oid": "66f6e70f84508224ba5c1602"
+  },
+  "name": "hang 1",
+  "category": "uong",
+  "description": "thuc pham chuc nang",
+  "expiryDate": {
+    "$date": "2025-02-28T17:00:00.000Z"
+  },
+  "price": 5000,
+  "sku": "123",
+  "stock": 20,
+  "supplier": {
+    "$oid": "66f6e7fe84508224ba5c1603"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f77187b5e8883b54190f45"
+  },
+  "name": "hang 2",
+  "category": "uong",
+  "description": "thuc pham chuc nang",
+  "expiryDate": {
+    "$date": "2025-02-28T17:00:00.000Z"
+  },
+  "price": 3000,
+  "sku": "123",
+  "stock": 20,
+  "supplier": {
+    "$oid": "66f6e7fe84508224ba5c1603"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f77192b5e8883b54190f46"
+  },
+  "name": "hang 3",
+  "category": "nhai",
+  "description": "thuc pham chuc nang",
+  "expiryDate": {
+    "$date": "2025-02-28T17:00:00.000Z"
+  },
+  "price": 3000,
+  "sku": "123",
+  "stock": 20,
+  "supplier": {
+    "$oid": "66f6e7fe84508224ba5c1603"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f771a7b5e8883b54190f47"
+  },
+  "name": "hang 4",
+  "category": "ngam",
+  "description": "thuc pham chuc nang",
+  "expiryDate": {
+    "$date": "2025-02-28T17:00:00.000Z"
+  },
+  "price": 1000,
+  "sku": "123",
+  "stock": 20,
+  "supplier": {
+    "$oid": "66f6e7fe84508224ba5c1603"
+  }
+},
+{
+  "_id": {
+    "$oid": "66f771bcb5e8883b54190f48"
+  },
+  "name": "hang 5",
+  "category": "uong",
+  "description": "thuc pham chuc nang",
+  "expiryDate": {
+    "$date": "2025-02-28T17:00:00.000Z"
+  },
+  "price": 4000,
+  "sku": "123",
+  "stock": 20,
+  "supplier": {
+    "$oid": "66f6e7fe84508224ba5c1603"
+  }
+}]

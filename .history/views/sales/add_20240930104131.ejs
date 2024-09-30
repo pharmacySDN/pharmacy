@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Sale</title>
+</head>
+<body>
+    <h1>Add New Sale</h1>
+    <% if (locals.error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+    <form action="/api/sales/add" method="POST">
+        <input type="date" name="date" required>
+        <select name="customer" required>
+            <% customers.forEach(customer => { %>
+                <option value="<%= customer._id %>"><%= customer.profile.name %></option>
+            <% }); %>
+        </select>
+        <div id="items">
+            <div class="item">
+                <select name="items[0][product]" required>
+                    <% products.forEach(product => { %>
+                        <option value="<%= product._id %>"><%= product.name %></option>
+                    <% }); %>
+                </select>
+                <input type="number" name="items[0][quantity]" placeholder="Quantity" required>
+                <input type="number" name="items[0][price]" placeholder="Price" required>
+            </div>
+        </div>
+<button type="button" id="addItem">Add Item</button>
+        <input type="number" name="total" placeholder="Total" required>
+        <select name="paymentMethod" required>
+            <option value="cash">Cash</option>
+            <option value="card">Card</option>
+            <option value="transfer">Bank Transfer</option>
+        </select>
+        <select name="status" required>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+        </select>
+        <button type="submit">Add Sale</button>
+    </form>
+    <a href="/api/sales">Back to Sales List</a>
+    <script>
+        document.getElementById('addItem').addEventListener('click', function() {
+            const itemsDiv = document.getElementById('items');
+            const newItem = itemsDiv.children[0].cloneNode(true);
+            const index = itemsDiv.children.length;
+            newItem.querySelectorAll('[name]').forEach(input => {
+                input.name = input.name.replace('[0]', `[${index}]`);
+            });
+            itemsDiv.appendChild(newItem);
+        });
+    </script>
+</body>
+</html>

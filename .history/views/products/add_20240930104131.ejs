@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head>
+<body>
+    <h1>Add New Product</h1>
+    <% if (locals.error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+    <form action="/api/products/add" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="category" placeholder="Category" required>
+        <textarea name="description" placeholder="Description" required></textarea>
+        <input type="date" name="expiryDate" required>
+        <input type="number" name="price" placeholder="Price" required>
+        <input type="text" name="sku" placeholder="SKU" required>
+        <input type="number" name="stock" placeholder="Stock" required>
+        <input type="text" name="supplier" placeholder="Supplier ID" required>
+        <button type="submit">Add Product</button>
+    </form>
+    <a href="/products">Back to Product List</a>
+</body>
+</html>

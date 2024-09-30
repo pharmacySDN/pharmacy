@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <h2>Today's Summary</h2>
+    <p>Total Sales: <%= totalSales %></p>
+    <p>Items Sold: <%= itemsSold %></p>
+    <h2>Low Stock Products</h2>
+    <ul>
+        <% if (lowStockProducts && lowStockProducts.length > 0) { %>
+            <% lowStockProducts.forEach(product => { %>
+                <li><%= product.name %> - Current Stock: <%= product.stock %></li>
+            <% }); %>
+        <% } else { %>
+            <li>No low stock products</li>
+        <% } %>
+    </ul>
+    <h2>Generate Sales Report</h2>
+    <form action="/api/reports/sales" method="GET">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required>
+    
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required>
+    
+        <button type="submit">Generate Report</button>
+    </form>
+
+    <h2>Generate Inventory Report</h2>
+    <form action="/api/reports/inventory" method="GET">
+        <label for="inventoryStartDate">Start Date:</label>
+        <input type="date" id="inventoryStartDate" name="startDate" required>
+    
+        <label for="inventoryEndDate">End Date:</label>
+        <input type="date" id="inventoryEndDate" name="endDate" required>
+    
+        <button type="submit">Generate Inventory Report</button>
+    </form>
+  
+    <a href="/api/reports/expiry">Generate Expiry Report</a>
+</body>
+</html>

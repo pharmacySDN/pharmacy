@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Report</title>
+</head>
+<body>
+    <h1>Inventory Report</h1>
+    <p>From: <%= startDate %> To: <%= endDate %></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Incoming Quantity</th>
+                <th>Outgoing Quantity</th>
+                <th>Net Change</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% productMovements.forEach(movement => { %>
+                <tr>
+                    <td><%= movement.product.name %></td>
+                    <td><%= movement.incomingQuantity %></td>
+                    <td><%= movement.outgoingQuantity %></td>
+                    <td><%= movement.incomingQuantity - movement.outgoingQuantity %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <a href="/api/reports/dashboard">Back to Dashboard</a>
+</body>
+</html>

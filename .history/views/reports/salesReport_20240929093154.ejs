@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Report</title>
+</head>
+<body>
+    <h1>Sales Report</h1>
+    <p>From: <%= startDate %> To: <%= endDate %></p>
+    <p>Total Sales: <%= totalSales %></p>
+    <p>Total Items Sold: <%= itemsSold %></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% sales.forEach(sale => { %>
+                <tr>
+                    <td><%= sale.date.toLocaleDateString() %></td>
+                    <td><%= sale.customer.profile.name %></td>
+                    <td>
+                        <ul>
+                            <% sale.items.forEach(item => { %>
+                                <li><%= item.product.name %> - <%= item.quantity %> x <%= item.price %></li>
+                            <% }); %>
+                        </ul>
+                    </td>
+                    <td><%= sale.total %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <a href="/reports">Back to Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales List</title>
+</head>
+<body>
+    <h1>Sales List</h1>
+    <a href="/api/sales/add">Add New Sale</a>
+    <form action="/api/sales/search" method="GET">
+        <input type="date" name="startDate" required>
+        <input type="date" name="endDate" required>
+        <button type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% sales.forEach(sale => { %>
+                <tr>
+                    <td><%= sale.date.toLocaleDateString() %></td>
+                    <td><%= sale.customer.profile.name %></td>
+                    <td><%= sale.total %></td>
+                    <td><%= sale.status %></td>
+                    <td>
+                        <a href="/api/sales/<%= sale._id %>">View Details</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

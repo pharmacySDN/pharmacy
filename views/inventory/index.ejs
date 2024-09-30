@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+</head>
+<body>
+    <h1>Inventory</h1>
+    <a href="/api/inventory/add">Add New Inventory Entry</a>
+    <form action="/api/inventory/search" method="GET">
+        <input type="date" name="startDate" required>
+        <input type="date" name="endDate" required>
+        <button type="submit">Search</button>
+    </form>
+    <a href="/api/inventory/report">Generate Stock Report</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Reference</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% inventory.forEach(entry => { %>
+                <tr>
+                    <td><%= entry.date.toLocaleDateString() %></td>
+                    <td><%= entry.type %></td>
+                    <td><%= entry.product.name %></td>
+                    <td><%= entry.quantity %></td>
+                    <td><%= entry.reference %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
