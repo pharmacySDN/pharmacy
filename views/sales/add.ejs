@@ -10,7 +10,7 @@
     <% if (locals.error) { %>
         <p style="color: red;"><%= error %></p>
     <% } %>
-    <form action="/sales/add" method="POST">
+    <form action="/api/sales/add" method="POST">
         <input type="date" name="date" required>
         <select name="customer" required>
             <% customers.forEach(customer => { %>
@@ -41,7 +41,7 @@
         </select>
         <button type="submit">Add Sale</button>
     </form>
-    <a href="/sales">Back to Sales List</a>
+    <a href="/api/sales">Back to Sales List</a>
     <script>
         document.getElementById('addItem').addEventListener('click', function() {
             const itemsDiv = document.getElementById('items');

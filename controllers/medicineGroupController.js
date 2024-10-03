@@ -5,46 +5,47 @@ exports.getAllMedicineGroups = async (req, res) => {
     const medicineGroups = await MedicineGroup.find();
     res.render('medicineGroups/index', { medicineGroups });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).send('Error fetching medicine groups');
   }
 };
 
-exports.createMedicineGroup = async (req, res) => {
-  const medicineGroup = new MedicineGroup({
-    name: req.body.name,
-    description: req.body.description,
-  });
+exports.getAddMedicineGroupForm = (req, res) => {
+  res.render('medicineGroups/add');
+};
 
+exports.createMedicineGroup = async (req, res) => {
   try {
-    const newMedicineGroup = await medicineGroup.save();
-    res.redirect('/medicine-groups');
+    const newMedicineGroup = new MedicineGroup(req.body);
+    await newMedicineGroup.save();
+    res.redirect('/api/medicine-groups');
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).render('medicineGroups/add', { error: error.message });
+  }
+};
+
+exports.getEditMedicineGroupForm = async (req, res) => {
+  try {
+    const medicineGroup = await MedicineGroup.findById(req.params.id);
+    res.render('medicineGroups/edit', { medicineGroup });
+  } catch (error) {
+    res.status(404).send('Medicine group not found');
   }
 };
 
 exports.updateMedicineGroup = async (req, res) => {
   try {
-    const updatedMedicineGroup = await MedicineGroup.findByIdAndUpdate(
-      req.params.id,
-      {
-        name: req.body.name,
-        description: req.body.description,
-        updatedAt: Date.now(),
-      },
-      { new: true }
-    );
-    res.redirect('/medicine-groups');
+    await MedicineGroup.findByIdAndUpdate(req.params.id, req.body);
+    res.redirect('/api/medicine-groups');
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).render('medicineGroups/edit', { error: error.message });
   }
 };
 
 exports.deleteMedicineGroup = async (req, res) => {
   try {
     await MedicineGroup.findByIdAndDelete(req.params.id);
-    res.redirect('/medicine-groups');
+    res.redirect('/api/medicine-groups');
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).send('Error deleting medicine group');
   }
 };

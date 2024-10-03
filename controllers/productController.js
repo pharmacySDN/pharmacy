@@ -17,7 +17,7 @@ exports.addProduct = async (req, res) => {
   try {
     const product = new Product(req.body);
     await product.save();
-    res.redirect('/products');
+    res.redirect('/api/products');
   } catch (error) {
     res.status(400).render('products/add', { error: error.message });
   }
@@ -35,7 +35,7 @@ exports.getEditProductForm = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     await Product.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect('/products');
+    res.redirect('/api/products');
   } catch (error) {
     res.status(400).render('products/edit', { error: error.message });
   }
@@ -44,7 +44,7 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
-    res.redirect('/products');
+    res.redirect('/api/products');
   } catch (error) {
     res.status(500).send('Error deleting product');
   }

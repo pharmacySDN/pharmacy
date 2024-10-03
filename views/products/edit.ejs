@@ -10,7 +10,7 @@
     <% if (locals.error) { %>
         <p style="color: red;"><%= error %></p>
     <% } %>
-    <form action="/products/edit/<%= product._id %>" method="POST">
+    <form action="/api/products/edit/<%= product._id %>" method="POST">
         <input type="text" name="name" value="<%= product.name %>" required>
         <input type="text" name="category" value="<%= product.category %>" required>
         <textarea name="description" required><%= product.description %></textarea>
@@ -21,6 +21,6 @@
         <input type="text" name="supplier" value="<%= product.supplier %>" required>
         <button type="submit">Update Product</button>
     </form>
-    <a href="/products">Back to Product List</a>
+    <a href="/api/products">Back to Product List</a>
 </body>
 </html>

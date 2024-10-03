@@ -26,7 +26,6 @@ exports.getDashboard = async (req, res) => {
 exports.getSalesReport = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    console.log('startDate:', startDate, 'endDate:', endDate);
     const sales = await Sale.find({
       date: { $gte: new Date(startDate), $lte: new Date(endDate) }
     }).populate('customer').populate('items.product');

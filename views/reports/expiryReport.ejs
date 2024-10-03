@@ -4,10 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expiry Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c7d59;
+            text-align: center;
+        }
+        p {
+            text-align: center;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #dddddd;
+        }
+        th {
+            background-color: #2c7d59;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            background-color: #ffc107;
+            color: black;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #e0a800;
+        }
+    </style>
 </head>
 <body>
     <h1>Expiry Report</h1>
     <p>Products expiring within the next 30 days:</p>
+    
     <table>
         <thead>
             <tr>
@@ -17,21 +65,16 @@
             </tr>
         </thead>
         <tbody>
-            <% if (expiringProducts && expiringProducts.length > 0) { %>
-                <% expiringProducts.forEach(product => { %>
-                    <tr>
-                        <td><%= product.name %></td>
-                        <td><%= product.expiryDate.toLocaleDateString() %></td>
-                        <td><%= product.stock %></td>
-                    </tr>
-                <% }); %>
-            <% } else { %>
+            <% expiringProducts.forEach(product => { %>
                 <tr>
-                    <td colspan="3">No products expiring within the next 30 days</td>
+                    <td><%= product.name %></td>
+                    <td><%= product.expiryDate.toLocaleDateString() %></td>
+                    <td><%= product.stock %></td>
                 </tr>
-            <% } %>
+            <% }); %>
         </tbody>
     </table>
+
     <a href="/api/reports/dashboard">Back to Dashboard</a>
 </body>
 </html>

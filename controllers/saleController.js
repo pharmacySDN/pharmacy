@@ -33,7 +33,7 @@ exports.addSale = async (req, res) => {
       await product.save();
     }
 
-    res.redirect('/sales');
+    res.redirect('/api/sales');
   } catch (error) {
     res.status(400).render('sales/add', { error: error.message });
   }
@@ -61,7 +61,7 @@ exports.updateSaleStatus = async (req, res) => {
       }
     }
 
-    res.redirect('/sales');
+    res.redirect('/api/sales');
   } catch (error) {
     res.status(400).send('Error updating sale status');
   }

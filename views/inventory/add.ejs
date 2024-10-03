@@ -10,7 +10,7 @@
     <% if (locals.error) { %>
         <p style="color: red;"><%= error %></p>
     <% } %>
-    <form action="/inventory/add" method="POST">
+    <form action="/api/inventory/add" method="POST">
         <input type="date" name="date" required>
         <select name="type" required>
             <option value="purchase">Purchase</option>

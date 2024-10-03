@@ -7,13 +7,13 @@
 </head>
 <body>
     <h1>Inventory</h1>
-    <a href="/inventory/add">Add New Inventory Entry</a>
-    <form action="/inventory/search" method="GET">
+    <a href="/api/inventory/add">Add New Inventory Entry</a>
+    <form action="/api/inventory/search" method="GET">
         <input type="date" name="startDate" required>
         <input type="date" name="endDate" required>
         <button type="submit">Search</button>
     </form>
-    <a href="/inventory/report">Generate Stock Report</a>
+    <a href="/api/inventory/report">Generate Stock Report</a>
     <table>
         <thead>
             <tr>

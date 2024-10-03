@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>User List</h1>
-    <a href="/users/add">Add New User</a>
-    <form action="/users/search" method="GET">
+    <a href="/api/users/add">Add New User</a>
+    <form action="/api/users/search" method="GET">
         <input type="text" name="search" placeholder="Search users">
         <button type="submit">Search</button>
     </form>
@@ -30,11 +30,11 @@
                     <td><%= user.profile.email %></td>
                     <td><%= user.role.join(', ') %></td>
                     <td>
-                        <a href="/users/edit/<%= user._id %>">Edit</a>
-                        <form action="/users/delete/<%= user._id %>" method="POST" style="display:inline;">
+                        <a href="/api/users/edit/<%= user._id %>">Edit</a>
+                        <form action="/api/users/delete/<%= user._id %>" method="POST" style="display:inline;">
                             <button type="submit">Delete</button>
                         </form>
-                        <a href="/users/changePassword/<%= user._id %>">Change Password</a>
+                        <a href="/api/users/changePassword/<%= user._id %>">Change Password</a>
                     </td>
                 </tr>
             <% }); %>

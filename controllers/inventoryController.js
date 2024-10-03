@@ -33,7 +33,7 @@ exports.addInventory = async (req, res) => {
     }
     await product.save();
 
-    res.redirect('/inventory');
+    res.redirect('/api/inventory');
   } catch (error) {
     res.status(400).render('inventory/add', { error: error.message });
   }

@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Sales List</h1>
-    <a href="/sales/add">Add New Sale</a>
-    <form action="/sales/search" method="GET">
+    <a href="/api/sales/add">Add New Sale</a>
+    <form action="/api/sales/search" method="GET">
         <input type="date" name="startDate" required>
         <input type="date" name="endDate" required>
         <button type="submit">Search</button>
@@ -31,7 +31,7 @@
                     <td><%= sale.total %></td>
                     <td><%= sale.status %></td>
                     <td>
-                        <a href="/sales/<%= sale._id %>">View Details</a>
+                        <a href="/api/sales/<%= sale._id %>">View Details</a>
                     </td>
                 </tr>
             <% }); %>
