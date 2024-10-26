@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
     // Redirect based on user role
     switch (user.role[0]) { // Assuming the first role is the primary role
       case 'admin':
-        res.redirect('/api/reports/dashboard');
+        res.redirect('/api');
         break;
       case 'manager':
         res.redirect('/api/inventory');

@@ -1,44 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User List</title>
-</head>
-<body>
-    <h1>User List</h1>
-    <a href="/api/users/add">Add New User</a>
-    <form action="/api/users/search" method="GET">
-        <input type="text" name="search" placeholder="Search users">
-        <button type="submit">Search</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% users.forEach(user => { %>
-                <tr>
-                    <td><%= user.username %></td>
-                    <td><%= user.profile.name %></td>
-                    <td><%= user.profile.email %></td>
-                    <td><%= user.role.join(', ') %></td>
-                    <td>
-                        <a href="/api/users/edit/<%= user._id %>">Edit</a>
-                        <form action="/api/users/delete/<%= user._id %>" method="POST" style="display:inline;">
-                            <button type="submit">Delete</button>
-                        </form>
-                        <a href="/api/users/changePassword/<%= user._id %>">Change Password</a>
-                    </td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
+
+<%- include('../common/header'); %>
+
+<body class="sidebar-mini fixed">
+    <div class="loader-bg">
+        <div class="loader-bar">
+        </div>
+    </div>
+    <div class="wrapper">
+        <!-- Navbar-->
+        <%- include('../common/nav'); %>
+        <!-- Side-Nav-->
+        <%- include('../common/side_nav'); %>
+
+        <div class="content-wrapper">
+            <!-- Container-fluid starts -->
+            <div class="container-fluid">
+
+                <!-- Header Starts -->
+                <div class="row">
+                    <div class="col-sm-12 p-0">
+                        <div class="main-header">
+                            <h4>Table</h4>
+                            <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                                <li class="breadcrumb-item">
+                                    <a href="">
+                                        <i class="icofont icofont-home"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="">Users</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- Header end -->
+
+                <!-- Tables start -->
+                <!-- Row start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Basic Table starts -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">List Users</h5>
+                                <!-- <p>Basic example <code>without any additional modification</code> classes</p> -->
+                                <button type="submit" style="left: 950px;" onclick="location.href ='/api/users/add'"
+                                    class="btn btn-success waves-effect waves-light m-r-30">Add New User</button>
+                            </div>
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-sm-12 table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Username</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Role</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% users.forEach((user, index)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= index + 1 %>
+                                                        </td>
+                                                        <td>
+                                                            <%= user.username %>
+                                                        </td>
+                                                        <td>
+                                                            <%= user.profile.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= user.profile.email %>
+                                                        </td>
+                                                        <td>
+                                                            <%= user.role.join(', ') %></td>
+                                                        <td>
+                                                            <form action="/api/users/edit/<%= user._id %>" style="display:inline;">
+                                                                <button type="submit" class="btn btn-primary btn-icon waves-effect waves-light" data-toggle="tooltip" data-placement="top">
+                                                                    <i class="icofont icofont-edit"></i>
+                                                                </button>
+                                                            </form>
+
+                                                            <form action="/api/users/delete/<%= user._id %>" method="POST" style="display:inline;">
+                                                                <button onclick="return confirm(' Are you sure you want to delete?')" type='submit'
+                                                                class="btn btn-primary btn-icon waves-effect waves-light"
+                                                                data-toggle="tooltip" data-placement="top">
+                                                                <i class="icofont icofont-ui-delete"></i>
+                                                                </button>
+                                                                </form>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Basic Table ends -->
+
+                    </div>
+                </div>
+                <!-- Row end -->
+                <!-- Tables end -->
+            </div>
+
+            <!-- Container-fluid ends -->
+        </div>
+    </div>
+
+    <%- include('../common/script'); %>
+
 </body>
+
 </html>

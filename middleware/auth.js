@@ -5,7 +5,7 @@ exports.isAuthenticated = (roles) => async (req, res, next) => {
   const token = req.cookies.auth_token;
 
   if (!token) {
-    return res.redirect('/login');
+    return res.redirect('/api/login/login');
   }
 
   try {
@@ -14,7 +14,7 @@ exports.isAuthenticated = (roles) => async (req, res, next) => {
 
     if (!user) {
       res.clearCookie('auth_token');
-      return res.redirect('/login');
+      return res.redirect('/api/login/login');
     }
 
     if (roles && !roles.some(role => user.role.includes(role))) {
@@ -25,7 +25,7 @@ exports.isAuthenticated = (roles) => async (req, res, next) => {
     next();
   } catch (error) {
     res.clearCookie('auth_token');
-    res.redirect('/login');
+    res.redirect('/api/login/login');
   }
 };
 

@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, '-password');
-    res.render('index', { users });
+    res.render('users/index', { users });
   } catch (error) {
     res.status(500).send('Error fetching users');
   }
@@ -20,8 +20,10 @@ exports.getAddUserForm = (req, res) => {
 exports.addUser = async (req, res) => {
   try {
     const { password, ...userData } = req.body;
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ ...userData, password: hashedPassword });
+    console.log(user);
     await user.save();
     res.redirect('/api/users');
   } catch (error) {
@@ -41,10 +43,19 @@ exports.getEditUserForm = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { password, ...userData } = req.body;
+    // console.log(userData.name);
+    
     if (password) {
       userData.password = await bcrypt.hash(password, 10);
     }
-    await User.findByIdAndUpdate(req.params.id, userData);
+    await User.findByIdAndUpdate(req.params.id, 
+      { 
+        'profile.name': userData.name, 
+        'profile.email': userData.email,
+        'profile.contact': userData.contact,
+        'profile.address': userData.address,
+        role: userData.role
+      }, { new: true });
     res.redirect('/api/users');
   } catch (error) {
     res.status(400).render('users/edit', { error: error.message });

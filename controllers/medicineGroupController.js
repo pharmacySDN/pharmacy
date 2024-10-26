@@ -3,7 +3,7 @@ const MedicineGroup = require('../models/MedicineGroup');
 exports.getAllMedicineGroups = async (req, res) => {
   try {
     const medicineGroups = await MedicineGroup.find();
-    res.render('medicineGroups/index', { medicineGroups });
+    res.render('medicineGroup/medicineGroupView', { medicineGroups });
   } catch (error) {
     res.status(500).send('Error fetching medicine groups');
   }

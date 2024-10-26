@@ -18,13 +18,14 @@ const apiRoutes = require('./routes/api');
 
 app.use(express.static(path.join(__dirname, '/public')));
 
+app.use((req, res, next) => {
+  res.locals.username = req.cookies.username; // Pass cookie to all views
+  next();
+});
+
 // Use API routes
 app.use('/api', apiRoutes);
 
-// Home route
-// app.get('/', (req, res) => {
-//   res.redirect('/api/reports/dashboard');
-// });
 
 app.get('/', (req, res) => {
   res.redirect('/api/login/login');  // Redirect to login page when accessing root

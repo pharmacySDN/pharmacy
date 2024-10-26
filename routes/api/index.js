@@ -16,5 +16,6 @@ router.use('/sales', isAuthenticated(['admin', 'manager', 'employee']), saleRout
 router.use('/reports', isAuthenticated(['admin', 'manager']), reportRoutes);
 router.use('/medicine-groups', isAuthenticated(['admin', 'manager']), medicineGroupRoutes);
 router.use('/users', isAuthenticated(['admin', 'manager']), userRoutes);
+// router.use('/', isAuthenticated(['admin', 'manager', 'employee', 'customer']), (req, res) => res.render('home/index'));
 
 module.exports = router;

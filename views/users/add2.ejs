@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+</head>
+<body>
+    <h1>Add New User</h1>
+    <% if (locals.error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+    <form action="/api/users/add" method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <select name="role" multiple required>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="employee">Employee</option>
+            <option value="customer">Customer</option>
+            <option value="supplier">Supplier</option>
+        </select>
+        <input type="text" name="profile[name]" placeholder="Full Name" required>
+        <input type="email" name="profile[email]" placeholder="Email" required>
+        <input type="text" name="profile[address]" placeholder="Address" required>
+        <input type="tel" name="profile[contact]" placeholder="Contact" required>
+        <button type="submit">Add User</button>
+    </form>
+    <a href="/api/users/">Back to User List</a>
+</body>
+</html>

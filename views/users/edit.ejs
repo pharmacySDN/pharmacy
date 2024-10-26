@@ -1,30 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit User</title>
-</head>
-<body>
-    <h1>Edit User</h1>
-    <% if (locals.error) { %>
-        <p style="color: red;"><%= error %></p>
-    <% } %>
-    <form action="/users/edit/<%= user._id %>" method="POST">
-        <input type="text" name="username" value="<%= user.username %>" required>
-        <select name="role" multiple required>
-            <option value="admin" <%= user.role.includes('admin') ? 'selected' : '' %>>Admin</option>
-            <option value="manager" <%= user.role.includes('manager') ? 'selected' : '' %>>Manager</option>
-            <option value="employee" <%= user.role.includes('employee') ? 'selected' : '' %>>Employee</option>
-            <option value="customer" <%= user.role.includes('customer') ? 'selected' : '' %>>Customer</option>
-            <option value="supplier" <%= user.role.includes('supplier') ? 'selected' : '' %>>Supplier</option>
-        </select>
-        <input type="text" name="profile[name]" value="<%= user.profile.name %>" required>
-        <input type="email" name="profile[email]" value="<%= user.profile.email %>" required>
-        <input type="text" name="profile[address]" value="<%= user.profile.address %>" required>
-        <input type="tel" name="profile[contact]" value="<%= user.profile.contact %>" required>
-        <button type="submit">Update User</button>
-    </form>
-    <a href="/api/users/">Back to User List</a>
+
+<%- include('../common/header'); %>
+
+<body class="sidebar-mini fixed">
+    <div class="loader-bg">
+        <div class="loader-bar">
+        </div>
+    </div>
+    <div class="wrapper">
+        <!-- Navbar-->
+        <%- include('../common/nav'); %>
+        <!-- Side-Nav-->
+        <%- include('../common/side_nav'); %>
+
+        <div class="content-wrapper">
+            <!-- Container-fluid starts -->
+            <div class="container-fluid">
+
+                <!-- Header Starts -->
+                <div class="row">
+                    <div class="col-sm-12 p-0">
+                        <div class="main-header">
+                            <h4>Table</h4>
+                            <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                                <li class="breadcrumb-item">
+                                    <a href="">
+                                        <i class="icofont icofont-home"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="">Edit Profile</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- Header end -->
+
+                <!-- Row start -->
+                <div class="row">
+                    <!-- Form Control starts -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">Edit Profile</h5>
+                                <div class="f-right">
+                                    <a href="" data-toggle="modal" data-target="#input-type-Modal"><i
+                                            class="icofont icofont-code-alt"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="card-block">
+                                <form action="/api/users/edit/<%= user._id %>" method="POST">
+                                    <div class="form-group">
+                                        <label for="exampleInputName" class="form-control-label">Name</label>
+                                        <input value="<%= user.profile.name %>" name="name" type="text"
+                                            class="form-control" id="exampleInputName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="form-control-label">Email address</label>
+                                        <input value="<%= user.profile.email %>" type="email" name="email"
+                                            class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email
+                                            with anyone else.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputAddress" class="form-control-label">Address</label>
+                                        <input value="<%= user.profile.address %>" name="address" type="text"
+                                            class="form-control" id="exampleInputAddress">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputContact" class="form-control-label">Contact</label>
+                                        <input value="<%= user.profile.contact %>" name="contact" type="tel"
+                                            class="form-control" id="exampleInputContact">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleSelect1" class="form-control-label">Role</label>
+                                        <select class="form-control" name="role" id="exampleSelect1">
+                                            <option value="admin" <%=user.role.includes('admin') ? 'selected'
+                                                : 'disabled' %>
+                                                >Admin</option>
+                                            <option value="manager" <%=user.role.includes('manager') ? 'selected' : ''
+                                                %> <%= user.role.includes('admin') ? 'disabled' : '' %>>Manager</option>
+                                            <option value="employee" <%=user.role.includes('employee') ? 'selected' : ''
+                                                %> <%= user.role.includes('admin') ? 'disabled' : '' %>>Employee</option>
+                                            <option value="customer" <%=user.role.includes('customer') ? 'selected' : ''
+                                                %> <%= user.role.includes('admin') ? 'disabled' : '' %>>Customer</option>
+                                            <option value="supplier" <%=user.role.includes('supplier') ? 'selected' : ''
+                                                %> <%= user.role.includes('admin') ? 'disabled' : '' %>>Supplier</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit"
+                                        class="btn btn-success waves-effect waves-light m-r-30">Submit</button>
+                                    <button type="reset"
+                                        class="btn btn-success waves-effect waves-light m-r-30">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Control ends -->
+
+                </div>
+                <!-- Row end -->
+            </div>
+            <!-- Basic Table ends -->
+
+        </div>
+    </div>
+
+    <%- include('../common/script'); %>
+
 </body>
+
 </html>

@@ -7,12 +7,12 @@
 </head>
 <body>
     <h1>Edit Medicine Group</h1>
-    <form action="/medicine-groups/<%= medicineGroup._id %>?_method=PUT" method="POST">
+    <form action="/medicine-groups/<%= medicineGroups._id %>?_method=PUT" method="POST">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="<%= medicineGroup.name %>" required>
+        <input type="text" id="name" name="name" value="<%= medicineGroups.name %>" required>
         
         <label for="description">Description:</label>
-        <textarea id="description" name="description"><%= medicineGroup.description %></textarea>
+        <textarea id="description" name="description"><%= medicineGroups.description %></textarea>
         
         <button type="submit">Update</button>
     </form>
