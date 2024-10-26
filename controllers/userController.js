@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, '-password');
-    res.render('users/index', { users });
+    res.render('index', { users });
   } catch (error) {
     res.status(500).send('Error fetching users');
   }

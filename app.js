@@ -16,6 +16,8 @@ app.use(cookieParser());
 // Import API routes
 const apiRoutes = require('./routes/api');
 
+app.use(express.static(path.join(__dirname, '/public')));
+
 // Use API routes
 app.use('/api', apiRoutes);
 
