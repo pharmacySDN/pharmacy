@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../common/custom'); %>
+<%- include('../common/header'); %>
+
+
+
+    <body class="sidebar-mini fixed">    
+        <div class="wrapper">
+            <%- include('../common/nav'); %>
+                <%- include('../common/side_nav'); %>
+                    <!-- Side-Nav-->
+                    <div class="content-wrapper">
+                        <div class="container">
+                            <a href="/api/purchase/products" class="back-to-products">← Back to Products</a>
+                            <h1>Shopping Cart</h1>
+
+                            <% if (cartItems.length===0) { %>
+                                <p>Your cart is empty</p>
+                                <% } else { %>
+                                    <table class="cart-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Subtotal</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% cartItems.forEach(item=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <strong>
+                                                            <%= item.product.name %>
+                                                        </strong><br>
+                                                        <small>SKU: <%= item.product.sku %></small>
+                                                    </td>
+                                                    <td>$<%= item.product.price.toFixed(2) %>
+                                                    </td>
+                                                    <td class="quantity-cell">
+                                                        <%= item.quantity %>
+                                                    </td>
+                                                    <td>$<%= item.subtotal.toFixed(2) %>
+                                                    </td>
+                                                    <td>
+                                                        <button class="remove-btn"
+                                                            onclick="removeFromCart('<%= item.product._id %>')">
+                                                            Remove
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="checkout-section">
+                                        <div class="total">
+                                            Total: $<%= total.toFixed(2) %>
+                                        </div>
+
+                                        <div class="payment-method">
+                                            <h3>Payment Method</h3>
+                                            <select id="paymentMethod">
+                                                <option value="credit">Credit Card</option>
+                                                <option value="debit">Debit Card</option>
+                                                <option value="cash">Cash</option>
+                                            </select>
+                                        </div>
+
+                                        <button class="checkout-btn" onclick="processCheckout()">
+                                            Proceed to Checkout
+                                        </button>
+
+                                        <div id="errorMessage" class="error-message"></div>
+                                        <div id="successMessage" class="success-message"></div>
+                                    </div>
+                                    <% } %>
+                        </div>
+                    </div>
+        </div>
+
+        <%- include('../common/script'); %>
+        <script>
+            async function removeFromCart(productId) {
+                try {
+                    const response = await fetch(`/api/purchase/cart/${productId}`, {
+                        method: 'DELETE'
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Reload the page to reflect changes
+                        window.location.reload();
+                    } else {
+                        showError(data.error || 'Error removing item from cart');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Error removing item from cart');
+                }
+            }
+
+            async function processCheckout() {
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const checkoutBtn = document.querySelector('.checkout-btn');
+
+                try {
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.textContent = 'Processing...';
+
+                    const response = await fetch('/api/purchase/checkout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ paymentMethod })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showSuccess('Purchase completed successfully!');
+                        setTimeout(() => {
+                            window.location.href = '/api/purchase/products';
+                        }, 2000);
+                    } else {
+                        showError(data.error || 'Error processing checkout');
+                        checkoutBtn.disabled = false;
+                        checkoutBtn.textContent = 'Proceed to Checkout';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Error processing checkout');
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.textContent = 'Proceed to Checkout';
+                }
+            }
+
+            function showError(message) {
+                const errorElement = document.getElementById('errorMessage');
+                const successElement = document.getElementById('successMessage');
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+                successElement.style.display = 'none';
+            }
+
+            function showSuccess(message) {
+                const errorElement = document.getElementById('errorMessage');
+                const successElement = document.getElementById('successMessage');
+                successElement.textContent = message;
+                successElement.style.display = 'block';
+                errorElement.style.display = 'none';
+            }
+        </script>
+
+    </body>
+
+</html>

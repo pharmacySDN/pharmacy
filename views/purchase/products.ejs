@@ -1,0 +1,142 @@
+<!-- views/purchase/products.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../common/header'); %>
+    <%- include('../common/custom'); %>
+
+        <body class="sidebar-mini fixed">
+
+            <div class="wrapper">
+                <%- include('../common/nav'); %>
+                    <%- include('../common/side_nav'); %>
+                        <!-- Side-Nav-->
+                        <div class="content-wrapper">
+                            <div class="container">
+                                <h1>Products</h1>
+
+
+                                <div id="cartCount" class="cart-count">
+                                    <a href="/api/purchase/cart" class="cart-link">
+                                        Cart: <span>0</span>
+                                    </a>
+                                </div>
+
+                                <div id="successMessage" class="message success-message"></div>
+                                <div id="errorMessage" class="message error-message"></div>
+
+                                <% categories.forEach(category=> { %>
+                                    <div class="category-section">
+                                        <h2>
+                                            <%= category %>
+                                        </h2>
+                                        <div class="products-grid">
+                                            <% products[category].forEach(product=> { %>
+                                                <div class="product-card">
+                                                    <div class="product-info">
+                                                        <h3>
+                                                            <%= product.name %>
+                                                        </h3>
+                                                        <p>
+                                                            <%= product.description %>
+                                                        </p>
+                                                        <p class="stock-info">In Stock: <%= product.stock %>
+                                                        </p>
+                                                        <p class="price">$<%= product.price.toFixed(2) %>
+                                                        </p>
+                                                        <p>Supplier: <%= product.supplier.profile.name %>
+                                                        </p>
+                                                        <p>SKU: <%= product.sku %>
+                                                        </p>
+                                                    </div>
+                                                    <div class="product-actions">
+                                                        <input type="number" class="quantity-input" min="1"
+                                                            max="<%= product.stock %>" value="1"
+                                                            data-product-id="<%= product._id %>">
+                                                        <button class="add-to-cart-btn"
+                                                            onclick="addToCart('<%= product._id %>')"
+                                                            <%=product.stock===0 ? 'disabled' : '' %>>
+                                                            Add to Cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <% }) %>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+            </div>
+
+            <%- include('../common/script'); %>
+                <script>
+                    function showMessage(message, isError = false) {
+                        const successElement = document.getElementById('successMessage');
+                        const errorElement = document.getElementById('errorMessage');
+
+                        // Hide both messages first
+                        successElement.style.display = 'none';
+                        errorElement.style.display = 'none';
+
+                        // Show appropriate message
+                        const messageElement = isError ? errorElement : successElement;
+                        messageElement.textContent = message;
+                        messageElement.style.display = 'block';
+
+                        // Hide message after 3 seconds
+                        setTimeout(() => {
+                            messageElement.style.display = 'none';
+                        }, 3000);
+                    }
+
+                    function updateCartCount(count) {
+                        document.querySelector('#cartCount span').textContent = count;
+                    }
+
+                    async function addToCart(productId) {
+                        const quantityInput = document.querySelector(`input[data-product-id="${productId}"]`);
+                        const quantity = parseInt(quantityInput.value);
+
+                        if (quantity < 1) {
+                            showMessage('Please enter a valid quantity', true);
+                            return;
+                        }
+
+                        try {
+                            const response = await fetch('/api/purchase/cart/add', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ productId, quantity })
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                showMessage(data.message || 'Added to cart!');
+                                updateCartCount(data.cartCount);
+                                quantityInput.value = 1; // Reset quantity input
+                            } else {
+                                showMessage(data.error || 'Error adding to cart', true);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            showMessage('Error adding to cart', true);
+                        }
+                    }
+
+                    // Initialize cart count
+                    fetch('/api/purchase/cart/count')
+                        .then(response => response.json())
+                        .then(data => updateCartCount(data.cartCount))
+                        .catch(error => {
+                            console.error('Error fetching cart count:', error);
+                        });
+                    var $window = $(window);
+                    var nav = $('.fixed-button');
+
+                </script>
+
+        </body>
+
+</html>

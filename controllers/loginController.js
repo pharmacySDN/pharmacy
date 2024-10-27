@@ -26,20 +26,21 @@ exports.login = async (req, res) => {
 
     // Set the token as a cookie
     res.cookie('auth_token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour
-
+    res.cookie('username', user.username, { httpOnly: true, maxAge: 3600000 });
+    res.cookie('role', user.role[0], { httpOnly: true, maxAge: 3600000 }); 
     // Redirect based on user role
     switch (user.role[0]) { // Assuming the first role is the primary role
       case 'admin':
         res.redirect('/api');
         break;
       case 'manager':
-        res.redirect('/api/inventory');
+        res.redirect('/api');
         break;
       case 'employee':
         res.redirect('/api/sales');
         break;
       case 'customer':
-        res.redirect('/api/products');
+        res.redirect('/api/purchase/products');
         break;
       case 'supplier':
         res.redirect('/api/inventory');
