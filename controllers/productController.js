@@ -1,5 +1,5 @@
 const Product = require('../models/Product');
-
+const User = require('../models/User')
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -18,8 +18,13 @@ exports.getProductById = async(req,res) => {
 }
 };
 
-exports.getAddProductForm = (req, res) => {
-  res.render('products/add');
+exports.getAddProductForm = async(req, res) => {
+  try {
+    const suppliers = await User.find({role: 'supplier'})
+    res.render('products/add', {suppliers});
+} catch (error) {
+    res.status(500).send('Error fetching suppliers')
+}
 };
 
 exports.addProduct = async (req, res) => {

@@ -52,11 +52,11 @@ exports.getCart = async (req, res) => {
     try {
         const cart = initializeCart(req);
         const productIds = cart.map(item => item.productId);
-        
+
         const products = await Product.find({ _id: { $in: productIds } });
-        
+
         const cartItems = products.map(product => {
-            const cartItem = cart.find(item => 
+            const cartItem = cart.find(item =>
                 item.productId.toString() === product._id.toString());
             return {
                 product,
@@ -80,13 +80,13 @@ exports.getCart = async (req, res) => {
 exports.addToCart = async (req, res) => {
     try {
         const { productId, quantity } = req.body;
-        
+
         // Validate product exists and has enough stock
         const product = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
-        
+
         if (product.stock < quantity) {
             return res.status(400).json({ error: 'Not enough stock available' });
         }
@@ -102,12 +102,12 @@ exports.addToCart = async (req, res) => {
         if (existingItemIndex > -1) {
             // Update quantity if product already in cart
             const newQuantity = cart[existingItemIndex].quantity + parseInt(quantity);
-            
+
             // Check if new total quantity exceeds stock
             if (newQuantity > product.stock) {
                 return res.status(400).json({ error: 'Not enough stock available' });
             }
-            
+
             cart[existingItemIndex].quantity = newQuantity;
         } else {
             // Add new item to cart
@@ -123,8 +123,8 @@ exports.addToCart = async (req, res) => {
                 console.error('Error saving session:', err);
                 return res.status(500).json({ error: 'Error saving to cart' });
             }
-            res.json({ 
-                success: true, 
+            res.json({
+                success: true,
                 cartCount: cart.length,
                 message: 'Added to cart successfully'
             });
@@ -161,7 +161,7 @@ exports.checkout = async (req, res) => {
     try {
         const { paymentMethod } = req.body;
         const cart = initializeCart(req);
-        
+
         if (cart.length === 0) {
             return res.status(400).json({ error: 'Cart is empty' });
         }
@@ -182,7 +182,7 @@ exports.checkout = async (req, res) => {
             // Process each cart item
             for (const cartItem of cart) {
                 const product = await Product.findById(cartItem.productId);
-                
+
                 if (!product || product.stock < cartItem.quantity) {
                     throw new Error(`Insufficient stock for product: ${product ? product.name : 'Unknown'}`);
                 }
@@ -199,13 +199,24 @@ exports.checkout = async (req, res) => {
                 });
 
                 // Create inventory record
-                await new Inventory({
-                    date: new Date(),
-                    type: 'sale',
-                    product: product._id,
-                    quantity: -cartItem.quantity,
-                    reference: sale._id
-                }).save();
+                const existingInventory = await Inventory.findOne({ product: product._id });
+
+                if (existingInventory) {
+                    // If the inventory record already exists, update the quantity
+                    existingInventory.quantity -= cartItem.quantity;
+                    existingInventory.date = new Date();
+                    existingInventory.reference = sale._id;
+                    await existingInventory.save();
+                } else {
+                    // If no existing inventory record is found, create a new one
+                    await new Inventory({
+                        date: new Date(),
+                        type: 'sale',
+                        product: product._id,
+                        quantity: product.stock-cartItem.quantity,
+                        reference: sale._id
+                    }).save();
+                }
 
                 total += product.price * cartItem.quantity;
             }
@@ -215,7 +226,7 @@ exports.checkout = async (req, res) => {
 
             // Clear cart
             req.session.cart = [];
-            
+
             req.session.save((err) => {
                 if (err) {
                     console.error('Error saving session:', err);
