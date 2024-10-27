@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../common/header'); %>
+<head>
+
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+            font-size: 26px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .detail-item {
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item label {
+            font-weight: bold;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .detail-item p {
+            font-size: 18px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .edit-button,
+        .delete-button {
+            padding: 10px 20px;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .edit-button {
+            background-color: #28a745;
+        }
+
+        .edit-button:hover {
+            background-color: #218838;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body class="sidebar-mini fixed">
+    <div class="wrapper">
+                  <!-- Navbar-->
+                  <%- include('../common/nav'); %>
+                  <!-- Side-Nav-->
+                  <%- include('../common/side_nav'); %>
+        <div class="content-wrapper">
+           <div class="container-fluid">
+            <h1>Product Details</h1>
+    
+            <div class="detail-item">
+                <label for="name">Name:</label>
+                <p id="name"><%= product.name %></p>
+            </div>
+    
+            <div class="detail-item">
+                <label for="category">Category:</label>
+                <p id="category"><%= product.category %></p>
+            </div>
+    
+            <div class="detail-item">
+                <label for="description">Description:</label>
+                <p id="description"><%= product.description %></p>
+            </div>
+    
+            <div class="detail-item">
+                <label for="expiryDate">Expiry Date:</label>
+                <p id="expiryDate"><%= product.expiryDate.toDateString() %></p>
+            </div>
+    
+            <div class="detail-item">
+                <label for="price">Price:</label>
+                <p id="price">$<%= product.price.toFixed(2) %></p>
+            </div>
+    
+            <div class="detail-item">
+                <label for="sku">SKU:</label>
+                <p id="sku"><%= product.sku %></p>
+            </div>
+    
+            <div class="detail-item">
+                <label for="stock">Stock:</label>
+                <p id="stock"><%= product.stock %></p>
+            </div>
+    
+            <div class="detail-item">
+                <label for="supplier">Supplier ID:</label>
+                <p id="supplier"><%= product.supplier %></p>
+            </div>
+    
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="/api/products/edit/<%= product._id %>" class="edit-button">Edit</a>
+                <form action="/api/products/delete/<%= product._id %>" method="POST" style="display:inline;">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </div>
+    
+            <!-- Back to Product List Link -->
+            <a href="/api/products" class="back-link">Back to Product List</a>
+           </div>
+        </div>
+    </div>
+       
+    <%- include('../common/script'); %>
+</body>
+</html>

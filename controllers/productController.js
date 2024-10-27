@@ -9,6 +9,15 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+exports.getProductById = async(req,res) => {
+  try {
+    const product = await Product.findById(req.params.id);  
+    res.render('products/detail', { product });
+} catch (error) {
+    res.status(500).send('Error fetching product details')
+}
+};
+
 exports.getAddProductForm = (req, res) => {
   res.render('products/add');
 };
@@ -58,3 +67,4 @@ exports.searchProducts = async (req, res) => {
     res.status(500).send('Error searching products');
   }
 };
+

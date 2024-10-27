@@ -1,32 +1,76 @@
+<!-- views/inventory/add.ejs -->
 <!DOCTYPE html>
 <html lang="en">
+    <%- include('../common/header'); %>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Inventory Entry</title>
+   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
 </head>
-<body>
-    <h1>Add Inventory Entry</h1>
-    <% if (locals.error) { %>
-        <p style="color: red;"><%= error %></p>
-    <% } %>
-    <form action="/api/inventory/add" method="POST">
-        <input type="date" name="date" required>
-        <select name="type" required>
-            <option value="purchase">Purchase</option>
-            <option value="sale">Sale</option>
-            <option value="return">Return</option>
-            <option value="adjustment">Adjustment</option>
-        </select>
-        <select name="product" required>
-            <% products.forEach(product => { %>
-                <option value="<%= product._id %>"><%= product.name %></option>
-            <% }); %>
-        </select>
-        <input type="number" name="quantity" required>
-        <input type="text" name="reference" required>
-        <button type="submit">Add Entry</button>
-    </form>
-    <a href="/inventory">Back to Inventory</a>
+<body class="sidebar-mini fixed">
+   <div class="wrapper">
+    <%- include('../common/nav'); %>
+    <!-- Side-Nav-->
+    <%- include('../common/side_nav'); %>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumb Navigation -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Inventory</a></li>
+                    <li class="breadcrumb-item"><a href="#">List of Medicines</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add New Medicine</li>
+                </ol>
+            </nav>
+    
+            <h1 class="mb-3">Add New Medicine</h1>
+            <p class="text-muted">*All fields are mandatory, except mentioned as (optional).</p>
+    
+            <!-- Form for Adding New Medicine -->
+            <form action="/api/inventory/add" method="POST">
+                <div class="form-row">
+                    <!-- Medicine Name -->
+                    <div class="form-group col-md-6">
+                        <label for="name">Medicine Name</label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter medicine name" required>
+                    </div>
+                    <!-- Medicine ID -->
+                    <div class="form-group col-md-6">
+                        <label for="medicineId">Medicine ID</label>
+                        <input type="text" name="medicineId" id="medicineId" class="form-control" placeholder="Enter medicine ID" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <!-- Medicine Group -->
+                    <div class="form-group col-md-6">
+                        <label for="group">Medicine Group</label>
+                        <select name="group" id="group" class="form-control">
+                            <option value="">- Select Group -</option>
+                            <!-- Add options for groups -->
+                        </select>
+                    </div>
+                    <!-- Quantity in Number -->
+                    <div class="form-group col-md-6">
+                        <label for="stock">Quantity in Number</label>
+                        <input type="number" name="stock" id="stock" class="form-control" placeholder="Enter quantity" required>
+                    </div>
+                </div>
+                <!-- How to Use -->
+                <div class="form-group">
+                    <label for="usage">How to Use</label>
+                    <textarea name="usage" id="usage" class="form-control" rows="3" placeholder="Enter instructions on how to use"></textarea>
+                </div>
+                <!-- Side Effects -->
+                <div class="form-group">
+                    <label for="sideEffects">Side Effects</label>
+                    <textarea name="sideEffects" id="sideEffects" class="form-control" rows="3" placeholder="Enter potential side effects"></textarea>
+                </div>
+                <!-- Save Button -->
+                <button type="submit" class="btn btn-danger">Save Details</button>
+            </form>
+        </div>
+    </div>
+   </div>
+   <%- include('../common/script'); %>
 </body>
 </html>

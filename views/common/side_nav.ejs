@@ -1,64 +1,65 @@
-<aside class="main-sidebar hidden-print">
+<aside class="main-sidebar hidden-print ">
     <section class="sidebar" id="sidebar-scroll">
         <!-- Sidebar Menu-->
         <ul class="sidebar-menu">
             <!-- User Menu-->
             <li class="dropdown">
-                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                <a href="#!" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                     class="dropdown-toggle drop icon-circle drop-image">
-                    <span><img class="img-circle" src="/assets/images/avatar-1.png" style="width:40px;"
+                    <span><img class="img-circle " src="/assets/images/avatar-1.png" style="width:40px;"
                             alt="User Image"></span>
                     <span><%= username %></span>
+
                 </a>
                 <ul class="dropdown-menu settings-menu">
-                    <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-                    <li><a href="#"><i class="icon-envelope-open"></i> My Messages</a></li>
+              
                     <li><a href="/api/login/logout"><i class="icon-logout"></i> Logout</a></li>
+
                 </ul>
-            </li>   
-            <% if (role === 'admin' || role === 'manager') { %>
-            <li class="treeview" style="pointer-events: none; opacity: 0.6;">
-                <a class="waves-effect waves-dark" href="javascript:void(0);">
+            </li>
+            <% if(role=='admin' || role=='manager') { %>
+            <li class="treeview">
+                <a class="waves-effect waves-dark" href="/api">
                     <span> Dashboard</span>
                 </a>
             </li>
             
-            <li class="treeview" style="pointer-events: none; opacity: 0.6;">
-                <a class="waves-effect waves-dark" href="javascript:void(0);">
-                    <span> Inventory</span>
+            <li class="treeview">
+                <a class="waves-effect waves-dark" href="/api/inventory">
+                    <span> Invertory</span>
                 </a>
             </li>
             
-            <li class="treeview" style="pointer-events: none; opacity: 0.6;">
-                <a class="waves-effect waves-dark" href="javascript:void(0);">
+            <li class="treeview">
+                <a class="waves-effect waves-dark" href="/api/reports">
                     <span> Reports</span>
                 </a>
             </li>
             
-            <li class="treeview" style="pointer-events: none; opacity: 0.6;">
-                <a class="waves-effect waves-dark" href="javascript:void(0);">
+            <li class="treeview">
+                <a class="waves-effect waves-dark" href="/api/users">
                     <span> Users</span>
                 </a>
             </li>
 
-            <li class="treeview" style="pointer-events: none; opacity: 0.6;">
-                <a class="waves-effect waves-dark" href="javascript:void(0);">
+            <li class="treeview">
+                <a class="waves-effect waves-dark" href="/api/products">
                     <span> Products</span>
                 </a>
             </li>
 
-            <li class="treeview" style="pointer-events: none; opacity: 0.6;">
-                <a class="waves-effect waves-dark" href="javascript:void(0);">
+            <li class="treeview">
+                <a class="waves-effect waves-dark" href="/api/sales/reports/sales">
                     <span> Sales</span>
                 </a>
             </li>
 
-            <li class="treeview" style="pointer-events: none; opacity: 0.6;">
-                <a class="waves-effect waves-dark" href="javascript:void(0);">
+            <li class="treeview">
+                <a class="waves-effect waves-dark" href="/api/medicine-groups">
                     <span> Medicine Group</span>
                 </a>
             </li>
-            <% } %>
+            <% }%>
         </ul>
     </section>
 </aside>

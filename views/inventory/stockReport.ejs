@@ -1,32 +1,47 @@
+<!-- stockReport.ejs -->
 <!DOCTYPE html>
 <html lang="en">
+    <%- include('../common/header'); %>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Report</title>
+ 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 </head>
-<body>
-    <h1>Stock Report</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>SKU</th>
-                <th>Current Stock</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% products.forEach(product => { %>
-                <tr>
-                    <td><%= product.name %></td>
-                    <td><%= product.sku %></td>
-                    <td><%= product.stock %></td>
-                    <td><%= product.price %></td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
-    <a href="/api/inventory">Back to Inventory</a>
+<body class="sidebar-mini fixed">
+    <div class="wrapper">
+        <%- include('../common/nav'); %>
+        <!-- Side-Nav-->
+        <%- include('../common/side_nav'); %>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>Stock Report</h1>
+                    <a href="/api/inventory" class="btn btn-link">Back to Inventory</a>
+                </div>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>SKU</th>
+                            <th>Current Stock</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(product => { %>
+                            <tr>
+                                <td><%= product.name %></td>
+                                <td><%= product.sku %></td>
+                                <td><%= product.stock %></td>
+                                <td><%= product.price.toFixed(2) %> $</td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+    <%- include('../common/script'); %>
 </body>
 </html>
