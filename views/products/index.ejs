@@ -121,6 +121,15 @@
                                                     <% }); %>
                                             </tbody>
                                         </table>
+                                        <nav>
+                                            <ul class="pagination">
+                                                <% for (let i = 1; i <= total_page; i++) { %>
+                                                    <li class="page-item <%= i === current_page ? 'active' : '' %>">
+                                                        <a class="page-link" href="/api/products?page=<%= i %>"><%= i %></a>
+                                                    </li>
+                                                <% } %>
+                                            </ul>
+                                        </nav>
                                         <% } else { %>
                                             <p class="text-center text-muted">No products found.</p>
                                             <% } %>

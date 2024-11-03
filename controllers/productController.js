@@ -5,8 +5,27 @@ const inventorySchema = require('../validation/inventoryValidation');
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate('supplier').sort({ sku: -1 });
-    res.render('products/index', { products });
+    const page = parseInt(req.query.page) || 1;
+    const per_page = 6;
+
+    const products = await Product
+      .find()
+      .populate('supplier')
+      .sort({ sku: -1 })
+      .skip(page * per_page - per_page)
+      .limit(per_page)
+      .exec();
+
+    const count = await Product.countDocuments();
+
+    res.render('products/index', {
+      products,
+      current_page: +page,
+      total_page: Math.ceil(count / per_page),
+      count: count,
+      data: products
+    });
+
   } catch (error) {
     res.status(500).send('Error fetching products');
   }
@@ -38,12 +57,12 @@ exports.addProduct = async (req, res) => {
   const errors = {};
   if (error) {
     error.details.forEach(err => {
-      errors[err.path[0]] = err.message; 
+      errors[err.path[0]] = err.message;
     });
   }
 
-  if (Object.keys(errors).length > 0) {
-    return res.render('products/add', { errors, suppliers, formData: req.body }); 
+  if (Object.keys(errors).length > 1) {
+    return res.render('products/add', { errors, suppliers, formData: req.body });
   }
 
   try {

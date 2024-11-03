@@ -25,5 +25,6 @@ router.post('/delete/:id', hasRole(['admin']), userController.deleteUser);
 router.get('/search', hasRole(['admin']), userController.searchUsers);
 router.get('/changePassword/:id', isAuthenticated(['admin', 'manager', 'employee', 'customer', 'supplier']), (req, res) => res.render('users/changePassword', { user: { _id: req.params.id } }));
 router.post('/changePassword/:id', isAuthenticated(['admin', 'manager', 'employee', 'customer', 'supplier']), userController.changePassword);
+router.get('/:page', hasRole(['admin']), userController.getAllUsers);
 
 module.exports = router;

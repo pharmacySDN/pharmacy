@@ -16,24 +16,22 @@
                     <div class="container-fluid">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h1>Inventory</h1>
-                            <div>
+                            <!-- <div>
                                 <a href="/api/inventory/report" class="btn btn-success">Create Stock Report</a>
-                                <!-- Nút mới -->
-                            </div>
+                            </div> -->
                         </div>
+
                         <div class="mb-3">
                             <form action="/api/inventory/search" method="GET" class="form-inline">
-                                <input type="text" name="search" class="form-control mr-2"
-                                    placeholder="Search Inventory...">
-                                <button type="submit" class="btn btn-secondary">Search</button>
                                 <div class="ml-auto">
                                     <select class="form-control" name="group" onchange="this.form.submit()">
-                                        <option value="">- Select Group -</option>
+                                        <option value="">-- Filter Status --</option>
                                         <!-- Add group options here -->
                                     </select>
                                 </div>
                             </form>
                         </div>
+
                         <% if (inventory) { %>
                             <table class="table table-striped table-bordered">
                                 <thead>
@@ -158,9 +156,9 @@
                                     <% }) %>
                                 </tbody>
                             </table>
-                        <!-- <% } else { %>
+                        <% } else { %>
                             Don't have any product
-                            <% } %> -->
+                        <% } %>
                     </div>
                 </div>
             </div>

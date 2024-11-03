@@ -163,13 +163,13 @@
 
             // Handle download
             document.getElementById('downloadBtn').addEventListener('click', async function () {
-                const loading = document.getElementById('loading');
+            
                 const form = document.getElementById('reportForm');
                 const formData = new FormData(form);
                 const queryString = new URLSearchParams(formData).toString();
 
                 try {
-                    loading.classList.add('active');
+               
 
                     const response = await fetch(`/api/sales/reports/sales/download?${queryString}`, {
                         method: 'GET',
@@ -202,9 +202,7 @@
                 } catch (error) {
                     console.error('Download error:', error);
                     alert('Failed to download report. Please try again.');
-                } finally {
-                    loading.classList.remove('active');
-                }
+                } 
             });
 
             // Handle form submission for filtering

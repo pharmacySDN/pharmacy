@@ -36,11 +36,22 @@
                     </div>
                 </div>
                 <!-- Header end -->
-                <div class="mb-3">
-                    <form action="/api/users/search" method="GET" class="form-inline">
-                        <input type="text" name="search" class="form-control mr-2" placeholder="Type here to search...">
-                        <button type="submit" class="btn btn-secondary">Search</button>
-                    </form>
+                <div class="row" style="margin-bottom: 5px;">
+                    <div class="d-flex align-items-center justify-content-between w-100" style="margin-left: 15px;">
+                        <form action="/api/users/search" method="GET" class="form-inline">
+                            <input type="text" name="search" class="form-control mr-2" placeholder="Type here to search..." required>
+                            <button type="submit" class="btn btn-secondary">Search</button>
+                        </form>
+
+                        <form action="/api/inventory/search" method="GET" class="form-inline">
+                            <div class="ml-auto" style="margin-left: 800px;">
+                                <select class="form-control" name="group" onchange="this.form.submit()">
+                                    <option value="">-- Filter Status --</option>
+                                    <!-- Add group options here -->
+                                </select>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <!-- Tables start -->
                 <!-- Row start -->
@@ -54,7 +65,7 @@
                                 <button type="submit" style="left: 950px;" onclick="location.href ='/api/users/add'"
                                     class="btn btn-success waves-effect waves-light m-r-30">Add New User</button>
                             </div>
-                            <div class="card-block">
+                            <div class="card-block" style="margin-top: -20px;">
                                 <div class="row">
                                     <div class="col-sm-12 table-responsive">
                                         <% if (users.length> 0) { %>
@@ -115,6 +126,71 @@
                                             </div>
                                         <% } %>
                                     </div>
+                                </div>
+
+                                <!-- pagination -->
+                                <div class="row">
+                                    <!-- hiển thị phân trang nếu có trang -->
+                                    <% if(pages > 0) { %>
+                                    <nav class="mx-auto">
+                                    <ul class="pagination" style="margin-top: 2rem;">
+                                    
+                                        <!-- FIRST ITEM -->  
+                                        <% if(current == 1) { %> 
+                                            <li class="page-item disabled">
+                                            <a class="page-link" href="/api/users">First</a>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="page-item">
+                                            <a class="page-link" href="/api/users">First</a>
+                                            </li>
+                                        <% } %>
+                                        
+                                        <!-- ITEMS  -->
+                                        <% var i = (Number(current) > 3 ? Number(current) - 2 : 1) %> 
+                                        <% if(i !== 1) { %>
+                                            <li class="page-item disabled">
+                                            <a class="page-link" href="#">...</a>
+                                            </li>
+                                        <% } %>
+                                        <% for(; i <= (Number(current) + 2) && i <= pages; i++) { %>
+                                        <% if(i == current) { %>
+                                            <li class="page-item active">
+                                            <a class="page-link" href="/api/users/<%= i %>">
+                                                <%= i %>
+                                            </a>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="page-item">
+                                            <a class="page-link" href="/api/users/<%= i %>">
+                                                <%= i %>
+                                            </a>
+                                            </li>
+                                        <% } %>
+                                        <% if (i == Number(current) + 2 && i < pages) { %>
+                                            <li class="page-item disabled">
+                                            <a class="page-link" href="#">...</a>
+                                            </li>
+                                        <% } %>
+                                        <% } %>
+                                        
+                                        <!-- LAST ITEM -->
+                                        <% if(current == pages) { %> 
+                                            <li class="page-item disabled">
+                                            <a class="page-link" href="#">
+                                                Last
+                                            </a>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="page-item">
+                                            <a class="page-link" href="/api/users/<%= pages %>">
+                                                Last
+                                            </a>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                    </nav>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>

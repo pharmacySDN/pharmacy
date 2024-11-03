@@ -6,7 +6,6 @@ const inventoryRoutes = require('./inventoryRoutes');
 const userRoutes = require('./userRoutes');
 const saleRoutes = require('./saleRoutes');
 const reportRoutes = require('./reportRoutes');
-const medicineGroupRoutes = require('./medicineGroupRoutes');
 const loginRoutes = require('./loginRoutes'); // Import the login routes
 const purchaseRoute = require('./purchaseRoute')
 const homeRoute = require('./homeRoute')
@@ -16,7 +15,7 @@ router.use('/products', isAuthenticated(['admin', 'manager', 'employee']), produ
 router.use('/inventory', isAuthenticated(['admin', 'manager', 'employee']), inventoryRoutes);
 router.use('/sales', isAuthenticated(['admin', 'manager', 'employee']), saleRoutes);
 router.use('/reports', isAuthenticated(['admin', 'manager']), reportRoutes);
-router.use('/medicine-groups', isAuthenticated(['admin', 'manager']), medicineGroupRoutes);
+// router.use('/medicine-groups', isAuthenticated(['admin', 'manager']), medicineGroupRoutes);
 router.use('/users', isAuthenticated(['admin', 'manager']), userRoutes);
 router.use('/purchase', isAuthenticated(['customer']), purchaseRoute)
 router.use('/', isAuthenticated(['admin', 'manager', 'employee']), homeRoute);

@@ -1,5 +1,4 @@
 const Sale = require('../models/Sale');
-const MedicineGroup = require('../models/MedicineGroup');
 const Product = require('../models/Product');
 const User = require('../models/User');
 

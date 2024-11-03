@@ -273,6 +273,7 @@
       </div>
 
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://code.highcharts.com/highcharts.js"></script>
 
       <script>
          var inStock = parseInt(document.getElementById('inStock').textContent, 10);
@@ -305,6 +306,56 @@
                }
             }
          });
+
+         // Initialize chart
+         const salesData = JSON.parse('<%- JSON.stringify(salesData) %>');
+            // Prepare the data for Highcharts
+
+            const salesCategories = Object.keys(salesData).map(date => {
+                const d = new Date(date);
+                return d.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric' // Adjust as needed
+                });
+            });
+
+            const salesValues = Object.values(salesData);
+
+            // Create the Highcharts chart
+            Highcharts.chart('barchart', {
+                title: {
+                    text: 'Sales Data Over Time' // Title for the chart
+                },
+                xAxis: {
+                    categories: salesCategories,
+                    title: {
+                        text: 'Date' // Title for x-axis
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total Sales' // Title for y-axis
+                    },
+                    min: 0 // Start the y-axis at 0
+                },
+                series: [{
+                    type: 'column', // Column chart type
+                    name: 'Sales',
+                    data: salesValues,
+                    color: '#f57c00',
+                    pointWidth: 20 // Color for the sales bars
+                }, {
+                    type: 'spline', // Spline chart for the average
+                    name: 'Average',
+                    data: salesValues.map(value => value / 10), // Adjust this calculation as needed for your average
+                    marker: {
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[3],
+                        fillColor: 'white'
+                    }
+                }]
+            });
       </script>
 
       <%- include('../common/script'); %>

@@ -7,8 +7,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}, '-password').sort({ _id: -1 });
-    res.render('users/index', { users });
+    let perPage = 5; 
+    let page = parseInt(req.params.page) || 1;
+
+    const count = await User.countDocuments();
+    const users = await User.find({}, '-password').sort({ _id: -1 })
+      .skip((perPage * page) - perPage)
+      .limit(perPage)
+      
+    res.render('users/index', { users, current: page, pages: Math.ceil(count / perPage) });
   } catch (error) {
     res.status(500).send('Error fetching users');
   }
@@ -31,8 +38,8 @@ exports.addUser = async (req, res) => {
 
   console.log(req.body);
 
-  if (Object.keys(errors).length > 0) {
-    return res.render('users/add', { errors, formData: req.body }); 
+  if (Object.keys(errors).length > 1) {
+    return res.render('users/add', { errors, formData: req.body });
   }
 
   try {
@@ -98,7 +105,9 @@ exports.searchUsers = async (req, res) => {
         { 'role': new RegExp(req.query.search, 'i') }
       ]
     }, '-password');
-    res.render('users/index', { users });
+    console.log(users);
+    
+    res.render('users/index', { users, pages: 1, current: 1 });
   } catch (error) {
     res.status(500).send('Error searching users');
   }
