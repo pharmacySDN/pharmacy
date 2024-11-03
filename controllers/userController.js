@@ -1,12 +1,13 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const userSchema = require('../validation/userValidation');
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}, '-password');
+    const users = await User.find({}, '-password').sort({ _id: -1 });
     res.render('users/index', { users });
   } catch (error) {
     res.status(500).send('Error fetching users');
@@ -14,13 +15,29 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.getAddUserForm = (req, res) => {
-  res.render('users/add');
+  res.render('users/add', { errors: {}, formData: {} });
 };
 
 exports.addUser = async (req, res) => {
+
+  const { error } = userSchema.validate(req.body, { abortEarly: false });
+
+  const errors = {};
+  if (error) {
+    error.details.forEach(err => {
+      errors[err.path.join('.')] = err.message;
+    });
+  }
+
+  console.log(req.body);
+
+  if (Object.keys(errors).length > 0) {
+    return res.render('users/add', { errors, formData: req.body }); 
+  }
+
   try {
     const { password, ...userData } = req.body;
-    
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ ...userData, password: hashedPassword });
     console.log(user);
@@ -44,13 +61,13 @@ exports.updateUser = async (req, res) => {
   try {
     const { password, ...userData } = req.body;
     // console.log(userData.name);
-    
+
     if (password) {
       userData.password = await bcrypt.hash(password, 10);
     }
-    await User.findByIdAndUpdate(req.params.id, 
-      { 
-        'profile.name': userData.name, 
+    await User.findByIdAndUpdate(req.params.id,
+      {
+        'profile.name': userData.name,
         'profile.email': userData.email,
         'profile.contact': userData.contact,
         'profile.address': userData.address,
@@ -77,7 +94,8 @@ exports.searchUsers = async (req, res) => {
       $or: [
         { username: new RegExp(req.query.search, 'i') },
         { 'profile.name': new RegExp(req.query.search, 'i') },
-        { 'profile.email': new RegExp(req.query.search, 'i') }
+        { 'profile.email': new RegExp(req.query.search, 'i') },
+        { 'role': new RegExp(req.query.search, 'i') }
       ]
     }, '-password');
     res.render('users/index', { users });
@@ -90,14 +108,14 @@ exports.changePassword = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const { currentPassword, newPassword } = req.body;
-    
+
     if (!(await bcrypt.compare(currentPassword, user.password))) {
       throw new Error('Current password is incorrect');
     }
-    
+
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
-    
+
     res.redirect('/users');
   } catch (error) {
     res.status(400).render('users/changePassword', { error: error.message });

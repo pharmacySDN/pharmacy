@@ -4,6 +4,8 @@ const inventoryController = require('../../controllers/inventoryController');
 const { hasRole } = require('../../middleware/auth');
 
 router.get('/', inventoryController.getAllInventory);
+router.post('/:id/stockin', inventoryController.stockIn);
+router.post('/:id/stockout', inventoryController.stockOut);
 router.get('/add', hasRole(['admin', 'manager']), inventoryController.getAddInventoryForm);
 router.post('/add', hasRole(['admin', 'manager']), inventoryController.addInventory);
 router.get('/search', inventoryController.searchInventory);

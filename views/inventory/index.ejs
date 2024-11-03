@@ -1,62 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../common/header'); %>
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body class="sidebar-mini fixed">
-    <div class="wrapper">
-        <%- include('../common/nav'); %>
-        <!-- Side-Nav-->
-        <%- include('../common/side_nav'); %>
-        <div class="content-wrapper">
-            <div class="container-fluid">
+<%- include('../common/header'); %>
+
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+
+    <body class="sidebar-mini fixed">
+        <div class="wrapper">
+            <%- include('../common/nav'); %>
+                <!-- Side-Nav-->
+            <%- include('../common/side_nav'); %>
+            <div class="content-wrapper">
                 <div class="container-fluid">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h1>Inventory</h1>
-                        <div>
-                            <a href="/api/inventory/report" class="btn btn-info">Create Stock Report</a> <!-- Nút mới -->
-                            <a href="/api/inventory/add" class="btn btn-danger">+ Add New Item</a>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <form action="/api/inventory/search" method="GET" class="form-inline">
-                            <input type="text" name="search" class="form-control mr-2" placeholder="Search Inventory...">
-                            <button type="submit" class="btn btn-secondary">Search</button>
-                            <div class="ml-auto">
-                                <select class="form-control" name="group" onchange="this.form.submit()">
-                                    <option value="">- Select Group -</option>
-                                    <!-- Add group options here -->
-                                </select>
+                    <div class="container-fluid">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h1>Inventory</h1>
+                            <div>
+                                <a href="/api/inventory/report" class="btn btn-success">Create Stock Report</a>
+                                <!-- Nút mới -->
                             </div>
-                        </form>
+                        </div>
+                        <div class="mb-3">
+                            <form action="/api/inventory/search" method="GET" class="form-inline">
+                                <input type="text" name="search" class="form-control mr-2"
+                                    placeholder="Search Inventory...">
+                                <button type="submit" class="btn btn-secondary">Search</button>
+                                <div class="ml-auto">
+                                    <select class="form-control" name="group" onchange="this.form.submit()">
+                                        <option value="">- Select Group -</option>
+                                        <!-- Add group options here -->
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <% if (inventory) { %>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SKU</th>
+                                        <th>Medicine Name</th>
+                                        <th>Stock Quantity</th>
+                                        <th>Stock In Date</th>
+                                        <th>Expiry Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% inventory.forEach(product=> { %>
+                                        <tr>
+                                            <td>
+                                                <% if (product.product) { %>
+                                                    <%= product.product.sku %>
+                                                <% } else { %>
+                                                    No Product
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <% if (product.product) { %>
+                                                    <%= product.product.name %>
+                                                <% } else { %>
+                                                    No Product
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <%= product.quantity %>
+                                            </td>
+                                            <td>
+                                                <%= new Date(product.addedDate).toLocaleDateString() %>
+                                            </td>
+                                            <td>
+                                                <%= new Date(product.expiryDate).toLocaleDateString() %>
+                                            </td>
+
+                                            <% if (product.status=='Low Stock' ) { %>
+                                                <td style="background-color: yellowgreen;">
+                                                    <%= product.status %>
+                                                </td>
+                                            <% } else if (product.status=='In Stock' ) { %>
+                                                <td style="background-color: lightblue;">
+                                                    <%= product.status %>
+                                                </td>
+                                            <% } else { %>
+                                                <td style="background-color: red;">
+                                                    <%= product.status %>
+                                                </td>
+                                            <% } %>
+
+                                            <td style="max-width: 175px;">
+                                                <button type="button" class="btn btn-outline-dark"
+                                                    data-toggle="modal" data-target="#stockin<%= product._id %>">
+                                                    Stock In
+                                                </button>
+                                                <!-- Modal StockIn -->
+                                                <div class="modal fade" id="stockin<%= product._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <form action="/api/inventory/<%= product._id %>/stockin" method="post"
+                                                            style="display:inline;">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Stock Quantity</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label for="recipient-name" class="col-form-label">Quantity:</label>
+                                                                        <input type="number" class="form-control" name="quantity" placeholder="Enter quantity">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+        
+
+                                                <button type="button" class="btn btn-outline-dark"
+                                                    data-toggle="modal" data-target="#stockout<%= product._id %>">
+                                                    Stock Out
+                                                </button>
+                                                <!-- Modal StockIn -->
+                                                <div class="modal fade" id="stockout<%= product._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <form action="/api/inventory/<%= product._id %>/stockout" method="post" 
+                                                            style="display:inline;">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Stock Quantity</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label for="recipient-name" class="col-form-label">Quantity:</label>
+                                                                        <input type="number" class="form-control" name="quantity" placeholder="Enter quantity">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <!-- <td><a href="/api/inventory/<%= product._id %>" class="btn btn-link">View Details »</a></td> -->
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        <!-- <% } else { %>
+                            Don't have any product
+                            <% } %> -->
                     </div>
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Medicine Name</th>
-                                <th>Medicine ID</th>
-                                <th>Group Name</th>
-                                <th>Stock Quantity</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% inventory.forEach(item => { %>
-                                <tr>
-                                    <td><%= item.product.name %></td>
-                                    <td><%= item.product._id %></td>
-                                    <td><%= item.group %></td>
-                                    <td><%= item.product.stock %></td>
-                                    <td><a href="/api/inventory/<%= item._id %>" class="btn btn-link">View Details »</a></td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
-    </div>
-    <%- include('../common/script'); %>
-</body>
+
+        <%- include('../common/script'); %>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>    
 </html>

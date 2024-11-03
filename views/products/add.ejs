@@ -1,144 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../common/header'); %>
-<head>
-    <style>
-        /* Basic Reset */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
 
-        /* Container for Form */
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+<%- include('../common/header'); %>
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin: 15px 0 5px;
-            color: #555;
-        }
-
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        textarea {
-            background-color: #f9f9f9;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
 <body class="sidebar-mini fixed">
-    <div class="wrapper">
-          <!-- Navbar-->
-          <%- include('../common/nav'); %>
-          <!-- Side-Nav-->
-          <%- include('../common/side_nav'); %>
-        <div class="content-wrapper">
-          <div class="container-fluid">
-            <h1>Add New Product</h1>
-            <% if (locals.error) { %>
-                <p style="color: red;"><%= error %></p>
-            <% } %>
-            <form action="/api/products/add" method="POST">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Product Name" required>
-        
-                    <label for="category">Category</label>
-                    <input type="text" id="category" name="category" placeholder="Product Category" required>
-        
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" placeholder="Product Description" required></textarea>
-        
-                    <label for="expiryDate">Expiry Date</label>
-                    <input type="date" id="expiryDate" name="expiryDate" required>
-        
-                    <label for="price">Price</label>
-                    <input type="number" id="price" name="price" placeholder="Product Price" required>
-        
-                    <label for="sku">SKU</label>
-                    <input type="text" id="sku" name="sku" placeholder="SKU" required>
-        
-                    <label for="stock">Stock</label>
-                    <input type="number" id="stock" name="stock" placeholder="Available Stock" required>
-        
-                    
-                    <div class="form-group">
-                        <label for="exampleSelect1" class="form-control-label">Supplier ID</label>
-                        <select class="form-control" name="role" id="exampleSelect1">
-                           <% suppliers.forEach(sup=>{ %>
-                            <option value="<%= sup._id %>"  ><%= sup.profile.name %> - <%= sup.profile.email %></option>
-                                <% })%>
-                           
-                        </select>
-                    </div>
-                    <button type="submit">Add Product</button>
-                </form>
-                <a href="/api/products" class="back-link">Back to Product List</a>
-          </div>
+    <div class="loader-bg">
+        <div class="loader-bar">
         </div>
     </div>
-   
+    <div class="wrapper">
+        <!-- Navbar-->
+        <%- include('../common/nav'); %>
+        <!-- Side-Nav-->
+        <%- include('../common/side_nav'); %>
+
+        <div class="content-wrapper">
+            <!-- Container-fluid starts -->
+            <div class="container-fluid">
+
+                <!-- Header Starts -->
+                <div class="row">
+                    <div class="col-sm-12 p-0">
+                        <div class="main-header">
+                            <h4>Products</h4>
+                            <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                                <li class="breadcrumb-item">
+                                    <a href="">
+                                        <i class="icofont icofont-home"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="/api/products">Products</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="">Add New Product</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- Header end -->
+
+                <!-- Row start -->
+                <div class="row">
+                    <!-- Form Control starts -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">Add New Product</h5>
+                                <div class="f-right">
+                                    <a href="" data-toggle="modal" data-target="#input-type-Modal"><i
+                                            class="icofont icofont-code-alt"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="card-block">
+                                <form action="/api/products/add" method="POST">
+                                    <div class="form-group">
+                                        <label for="exampleInputSKU" class="form-control-label">SKU</label>
+                                        <input name="sku" type="text" value="<%= formData.sku || '' %>"
+                                            class="form-control" id="exampleInputSKU">
+                                        <% if (typeof errors.sku !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.sku %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name" class="form-control-label">Name</label>
+                                        <input name="name" type="text" value="<%= formData.name || '' %>"
+                                            class="form-control" id="name">
+                                        <% if (typeof errors.name !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.name %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description" class="form-control-label">Description</label>
+                                        <input name="description" type="text" value="<%= formData.description || '' %>"
+                                            class="form-control" id="description">
+                                        <% if (typeof errors.description !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.description %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price" class="form-control-label">Price</label>
+                                        <input name="price" type="number" value="<%= formData.price || '' %>"
+                                            class="form-control" id="price">
+                                        <% if (typeof errors.price !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.price %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="=quantity" class="form-control-label">Quantity</label>
+                                        <input name="quantity" type="number" value="<%= formData.quantity || '' %>"
+                                            class="form-control" id="=quantity">
+                                        <% if (typeof errors.quantity !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.quantity %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="=expiryDate" class="form-control-label">Expiry Day</label>
+                                        <input name="expiryDate" type="date" value="<%= formData.expiryDate || '' %>"
+                                            class="form-control" id="=expiryDate">
+                                        <% if (typeof errors.expiryDate !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.expiryDate %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleSelect1" class="form-control-label">Supplier ID</label>
+                                        <select class="form-control" name="supplier" id="exampleSelect1">
+                                            <% if (suppliers) { %>
+                                                <% suppliers.forEach(sup => { %>
+                                                    <option value="<%= sup._id %>"><%= sup.profile.name %> - <%= sup.profile.email %></option>
+                                                <% }) %>
+                                            <% } else { %>
+                                                <option disabled>No suppliers available</option>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <button type="submit"
+                                        class="btn btn-success waves-effect waves-light m-r-30">Submit</button>
+                                    <button type="reset"
+                                        class="btn btn-success waves-effect waves-light m-r-30">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Control ends -->
+
+                </div>
+                <!-- Row end -->
+            </div>
+            <!-- Basic Table ends -->
+
+        </div>
+    </div>
+    <!-- Row end -->
+    <!-- Tables end -->
+    </div>
+
+    <!-- Container-fluid ends -->
+    </div>
+    </div>
+
     <%- include('../common/script'); %>
+
 </body>
+
 </html>

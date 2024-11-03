@@ -14,8 +14,7 @@
                             <div class="container">
                                 <h1>Products</h1>
 
-
-                                <div id="cartCount" class="cart-count">
+                                <div id="cartCount" class="cart-count" style="width: 90px;">
                                     <a href="/api/purchase/cart" class="cart-link">
                                         Cart: <span>0</span>
                                     </a>
@@ -24,45 +23,43 @@
                                 <div id="successMessage" class="message success-message"></div>
                                 <div id="errorMessage" class="message error-message"></div>
 
-                                <% categories.forEach(category=> { %>
-                                    <div class="category-section">
-                                        <h2>
-                                            <%= category %>
-                                        </h2>
-                                        <div class="products-grid">
-                                            <% products[category].forEach(product=> { %>
-                                                <div class="product-card">
-                                                    <div class="product-info">
-                                                        <h3>
-                                                            <%= product.name %>
-                                                        </h3>
-                                                        <p>
-                                                            <%= product.description %>
-                                                        </p>
-                                                        <p class="stock-info">In Stock: <%= product.stock %>
-                                                        </p>
-                                                        <p class="price">$<%= product.price.toFixed(2) %>
-                                                        </p>
-                                                        <p>Supplier: <%= product.supplier.profile.name %>
-                                                        </p>
-                                                        <p>SKU: <%= product.sku %>
-                                                        </p>
-                                                    </div>
-                                                    <div class="product-actions">
-                                                        <input type="number" class="quantity-input" min="1"
-                                                            max="<%= product.stock %>" value="1"
-                                                            data-product-id="<%= product._id %>">
-                                                        <button class="add-to-cart-btn"
-                                                            onclick="addToCart('<%= product._id %>')"
-                                                            <%=product.stock===0 ? 'disabled' : '' %>>
-                                                            Add to Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <% }) %>
+                                <div class="products-grid">
+                                    <% products.forEach(product=> { %>
+                                        <div class="product-card">
+                                            <div class="product-info">
+                                                <h3>
+                                                    <%= product.name %>
+                                                </h3>
+                                                <p>
+                                                    <%= product.description %>
+                                                </p>
+                                                <p class="stock-info">In Stock: <%= product.stock %>
+                                                </p>
+                                                <p class="price">$<%= product.price.toFixed(2) %>
+                                                </p>
+                                                <p>
+                                                    <% if (product.supplier) { %>
+                                                        Supplier: <%= product.supplier.profile.name %>
+                                                    <% } else { %>
+                                                        No Supplier 
+                                                    <% } %>
+                                                </p>
+                                                <p>SKU: <%= product.sku %>
+                                                </p>
+                                            </div>
+                                            <div class="product-actions">
+                                                <input type="number" class="quantity-input" min="1"
+                                                    max="<%= product.stock %>" value="1"
+                                                    data-product-id="<%= product._id %>">
+                                                <button class="add-to-cart-btn"
+                                                    onclick="addToCart('<%= product._id %>')" <%=product.stock===0
+                                                    ? 'disabled' : '' %>>
+                                                    Add to Cart
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <% }) %>
+                                        <% }) %>
+                                </div>
                             </div>
                         </div>
             </div>

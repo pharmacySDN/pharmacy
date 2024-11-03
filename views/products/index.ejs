@@ -1,206 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../common/header'); %>
-<head>
-   
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<%- include('../common/header'); %>
 
-        /* Container */
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Add Product Button */
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        /* Search Form */
-        .form-inline .form-control {
-            width: 70%;
-            border-radius: 4px;
-        }
-
-        .form-inline .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-        }
-
-        .form-inline .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        /* Table Styling */
-        .table {
-            width: 100%;
-            margin-top: 10px;
-            border-collapse: collapse;
-        }
-
-        .table-bordered {
-            border: 1px solid #ddd;
-        }
-
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: #f9f9f9;
-        }
-
-        .thead-dark th {
-            background-color: #343a40;
-            color: white;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        /* Action Buttons */
-        .d-flex .btn-link {
-            color: #17a2b8;
-            text-decoration: none;
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-
-        .d-flex .btn-warning {
-            background-color: #ffc107;
-            color: white;
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-
-        .d-flex .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-
-        .btn-link:hover,
-        .btn-warning:hover,
-        .btn-danger:hover {
-            opacity: 0.8;
-        }
-
-        /* No Products Message */
-        .text-muted {
-            color: #6c757d;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-
-<body >
-    
+<body class="sidebar-mini fixed">
+    <div class="loader-bg">
+        <div class="loader-bar">
+        </div>
+    </div>
     <div class="wrapper">
         <!-- Navbar-->
         <%- include('../common/nav'); %>
         <!-- Side-Nav-->
         <%- include('../common/side_nav'); %>
 
-        <div class="content-wrapper ">
-            <!-- Header and Add Product Link -->
+        <div class="content-wrapper">
+            <!-- Container-fluid starts -->
             <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1>Product List</h1>
-                    <a href="/api/products/add" class="btn btn-primary">+ Add New Product</a>
+
+                <!-- Header Starts -->
+                <div class="row">
+                    <div class="col-sm-12 p-0">
+                        <div class="main-header">
+                            <h4>Products</h4>
+                            <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                                <li class="breadcrumb-item">
+                                    <a href="">
+                                        <i class="icofont icofont-home"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="/api/products">Products</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
-    
-                <!-- Search Form -->
+                <!-- Header end -->
                 <div class="mb-3">
                     <form action="/api/products/search" method="GET" class="form-inline">
-                        <input type="text" name="name" class="form-control mr-2" placeholder="Search by name">
+                        <input type="text" name="search" class="form-control mr-2" placeholder="Type name of product">
                         <button type="submit" class="btn btn-secondary">Search</button>
                     </form>
                 </div>
-    
-                <!-- Product Table -->
-                <% if (products.length> 0) { %>
-                    <table class="table table-striped table-bordered">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% products.forEach(product=> { %>
-                                <tr>
-                                    <td>
-                                        <%= product.name %>
-                                    </td>
-                                    <td>
-                                        <%= product.category %>
-                                    </td>
-                                    <td>$<%= product.price.toFixed(2) %>
-                                    </td>
-                                    <td>
-                                        <%= product.stock %>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex">
-                                            <a href="/api/products/detail/<%= product._id %>"
-                                                class="btn btn-link">Detail</a>
-                                            <a href="/api/products/edit/<%= product._id %>"
-                                                class="btn btn-warning mx-2">Edit</a>
-                                            <form action="/api/products/delete/<%= product._id %>" method="POST"
-                                                style="display:inline;">
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <% }); %>
-                        </tbody>
-                    </table>
-                    <% } else { %>
-                        <p class="text-center text-muted">No products found.</p>
-                        <% } %>
+                <!-- Tables start -->
+                <!-- Row start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Basic Table starts -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">List Products</h5>
+                                <!-- <p>Basic example <code>without any additional modification</code> classes</p> -->
+                                <button type="submit" style="left: 900px;" onclick="location.href ='/api/products/add'"
+                                    class="btn btn-success waves-effect waves-light m-r-30">Add New Product</button>
+                            </div>
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-sm-12 table-responsive">
+                                        <% if (products.length> 0) { %>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>SKU</th>
+                                                    <th>Name</th>
+                                                    <th>Description</th>
+                                                    <th>Price</th>
+                                                    <th>Supplier</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% products.forEach((product, index)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= index + 1 %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.sku %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.description %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.price %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (product.supplier) { %>
+                                                                <%= product.supplier.profile.name %>
+                                                            <% } else { %>
+                                                                No Supplier
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <!-- <form action="/api/products/detail/<%= product._id %>" style="display:inline;">
+                                                                <button type="submit" class="btn btn-link btn-icon waves-effect waves-light" data-toggle="tooltip" data-placement="top">
+                                                                    <i class="icofont icofont-file-document"></i>
+                                                                </button>
+                                                            </form> -->
+
+                                                            <form action="/api/products/edit/<%= product._id %>" style="display:inline;">
+                                                                <button type="submit" class="btn btn-warning btn-icon waves-effect waves-light" data-toggle="tooltip" data-placement="top">
+                                                                    <i class="icofont icofont-edit"></i>
+                                                                </button>
+                                                            </form>
+
+                                                            <form action="/api/products/delete/<%= product._id %>" method="POST" style="display:inline;">
+                                                                <button onclick="return confirm(' Are you sure you want to delete?')" type='submit'
+                                                                class="btn btn-danger btn-icon waves-effect waves-light"
+                                                                data-toggle="tooltip" data-placement="top">
+                                                                <i class="icofont icofont-ui-delete"></i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                            </tbody>
+                                        </table>
+                                        <% } else { %>
+                                            <p class="text-center text-muted">No products found.</p>
+                                            <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Basic Table ends -->
+
+                    </div>
+                </div>
+                <!-- Row end -->
+                <!-- Tables end -->
             </div>
+
+            <!-- Container-fluid ends -->
         </div>
-
     </div>
-    
-
-    
 
     <%- include('../common/script'); %>
+
 </body>
 
 </html>

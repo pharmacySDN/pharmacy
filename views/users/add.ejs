@@ -22,14 +22,14 @@
                 <div class="row">
                     <div class="col-sm-12 p-0">
                         <div class="main-header">
-                            <h4>Table</h4>
+                            <h4>Users</h4>
                             <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
                                 <li class="breadcrumb-item">
                                     <a href="">
                                         <i class="icofont icofont-home"></i>
                                     </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="">Dashboard</a>
+                                <li class="breadcrumb-item"><a href="/api/users">Users</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="">Add New User</a>
                                 </li>
@@ -46,9 +46,6 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-header-text">Add New User</h5>
-                                <% if (locals.error) { %>
-                                    <p style="color: red;"><%= error %></p>
-                                <% } %>
                                 <div class="f-right">
                                     <a href="" data-toggle="modal" data-target="#input-type-Modal"><i
                                             class="icofont icofont-code-alt"></i></a>
@@ -59,35 +56,53 @@
                                 <form action="/api/users/add" method="POST">
                                     <div class="form-group">
                                         <label for="exampleInputUsername" class="form-control-label">Username</label>
-                                        <input name="username" type="text"
+                                        <input name="username" type="text" value="<%= formData.username || '' %>"
                                             class="form-control" id="exampleInputUsername">
+                                        <% if (typeof errors.username !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.username %></div>
+                                        <% } %>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPass" class="form-control-label">Password</label>
-                                        <input name="password" type="text"
+                                        <input name="password" type="text" value="<%= formData.password || '' %>"
                                             class="form-control" id="exampleInputPass">
+                                        <% if (typeof errors.password !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors.password %></div>
+                                        <% } %>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputName" class="form-control-label">Name</label>
-                                        <input name="profile[name]" type="text"
+                                        <input name="profile[name]" type="text" value="<%= formData && formData.profile ? formData.profile.name : '' %>"
                                             class="form-control" id="exampleInputName">
+                                        <% if (typeof errors['profile.name'] !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors['profile.name'] %></div>
+                                        <% } %>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1" class="form-control-label">Email address</label>
-                                        <input type="email" name="profile[email]"
+                                        <input type="email" name="profile[email]" value="<%= formData && formData.profile ? formData.profile.email : '' %>"
                                             class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         <small id="emailHelp" class="form-text text-muted">We'll never share your email
                                             with anyone else.</small>
+                                        <% if (typeof errors['profile.email'] !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors['profile.email'] %></div>
+                                        <% } %>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputAddress" class="form-control-label">Address</label>
-                                        <input name="profile[address]" type="text"
+                                        <input name="profile[address]" type="text" value="<%= formData && formData.profile ? formData.profile.address : '' %>"
                                             class="form-control" id="exampleInputAddress">
+                                        <% if (typeof errors['profile.address'] !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors['profile.address'] %></div>
+                                        <% } %>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputContact" class="form-control-label">Contact</label>
-                                        <input name="profile[contact]" type="tel"
+                                        <input name="profile[contact]" type="tel" value="<%= formData && formData.profile ? formData.profile.contact : '' %>"
                                             class="form-control" id="exampleInputContact">
+                                        <% if (typeof errors['profile.contact'] !== 'undefined') { %>
+                                            <div style="color: red;"><%= errors['profile.contact'] %></div>
+                                        <% } %>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleSelect1" class="form-control-label">Role</label>

@@ -25,22 +25,12 @@ exports.getCartCount = async (req, res) => {
 
 exports.getProductList = async (req, res) => {
     try {
-        const products = await Product.find({ stock: { $gt: 0 } })
+        const products = await Product.find()
             .populate('supplier', 'profile.name')
-            .sort('category');
-
-        // Group products by category
-        const groupedProducts = products.reduce((acc, product) => {
-            if (!acc[product.category]) {
-                acc[product.category] = [];
-            }
-            acc[product.category].push(product);
-            return acc;
-        }, {});
+            .sort({sku: -1})
 
         res.render('purchase/products', {
-            products: groupedProducts,
-            categories: Object.keys(groupedProducts)
+            products
         });
     } catch (error) {
         console.error('Error fetching products:', error);
