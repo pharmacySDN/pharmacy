@@ -5,7 +5,7 @@ exports.getAllInventory = async (req, res) => {
   try {
     const inventory = await Inventory.find().populate('product').sort({ addedDate: -1 });
     // console.log(inventory);
-
+    
     res.render('inventory/index', { inventory });
   } catch (error) {
     res.status(500).send('Error fetching inventory');

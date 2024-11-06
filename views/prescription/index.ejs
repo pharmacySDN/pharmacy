@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../common/header'); %>
+
+<body class="sidebar-mini fixed">
+    <div class="loader-bg">
+        <div class="loader-bar">
+        </div>
+    </div>
+    <div class="wrapper">
+        <!-- Navbar-->
+        <%- include('../common/nav'); %>
+        <!-- Side-Nav-->
+        <%- include('../common/side_nav'); %>
+
+        <div class="content-wrapper">
+            <!-- Container-fluid starts -->
+            <div class="container-fluid">
+
+                <!-- Header Starts -->
+                <div class="row">
+                    <div class="col-sm-12 p-0">
+                        <div class="main-header">
+                            <h4>Prescription</h4>
+                            <ol class="breadcrumb breadcrumb-title breadcrumb-arrow">
+                                <li class="breadcrumb-item">
+                                    <a href="">
+                                        <i class="icofont icofont-home"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="/api/prescriptions">Prescription</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- Header end -->
+                <div class="mb-3">
+                    <form action="/api/products/search" method="GET" class="form-inline">
+                        <input type="text" name="search" class="form-control mr-2" placeholder="Type name of product">
+                        <button type="submit" class="btn btn-secondary">Search</button>
+                    </form>
+                </div>
+                <!-- Tables start -->
+                <!-- Row start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Basic Table starts -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">List Prescription</h5>
+                                <!-- <p>Basic example <code>without any additional modification</code> classes</p> -->
+                                <button type="submit" style="left: 900px;" onclick="location.href ='/api/prescriptions/add'"
+                                    class="btn btn-success waves-effect waves-light m-r-30">Add New Prescription</button>
+                            </div>
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-sm-12 table-responsive">
+                                        <% if (prescriptions.length> 0) { %>
+                                            <table class="table table-bordered table-striped">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% prescriptions.forEach((prescription, index) => { %>
+                                                        <tr>
+                                                            <td><%= index + 1 %></td>
+                                                            <td><%= prescription.name %></td>
+                                                            <td>
+                                                                <a href="prescriptions/<%= prescription._id %>" class="btn btn-info btn-sm">View</a>
+                                                                <a href="/api/prescriptions/edit/<%= prescription._id %>" class="btn btn-warning btn-sm">Edit</a>
+                                                                <form action="/api/prescriptions/<%= prescription._id %>" method="POST" style="display:inline;">
+                                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    <% }); %>
+                                                </tbody>
+                                            </table>
+                                            <nav>
+                                                <ul class="pagination">
+                                                    <% for (let i = 1; i <= total_page; i++) { %>
+                                                        <li class="page-item <%= i === current_page ? 'active' : '' %>">
+                                                            <a class="page-link" href="/api/prescriptions?page=<%= i %>"><%= i %></a>
+                                                        </li>
+                                                    <% } %>
+                                                </ul>
+                                            </nav>
+                                       
+                                        <% } else { %>
+                                            <p class="text-center text-muted">No prescription found.</p>
+                                            <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Basic Table ends -->
+
+                    </div>
+                </div>
+                <!-- Row end -->
+                <!-- Tables end -->
+            </div>
+
+            <!-- Container-fluid ends -->
+        </div>
+    </div>
+
+    <%- include('../common/script'); %>
+
+</body>
+
+</html>

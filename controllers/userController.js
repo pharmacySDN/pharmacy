@@ -14,8 +14,10 @@ exports.getAllUsers = async (req, res) => {
     const users = await User.find({}, '-password').sort({ _id: -1 })
       .skip((perPage * page) - perPage)
       .limit(perPage)
+
+    const roles = users.map(user => user.role);    
       
-    res.render('users/index', { users, current: page, pages: Math.ceil(count / perPage) });
+    res.render('users/index', { users, current: page, pages: Math.ceil(count / perPage), roles });
   } catch (error) {
     res.status(500).send('Error fetching users');
   }
@@ -97,6 +99,9 @@ exports.deleteUser = async (req, res) => {
 
 exports.searchUsers = async (req, res) => {
   try {
+    const usersRole = await User.find({}, 'role');
+    const roles = usersRole.map(user => user.role);  
+
     const users = await User.find({
       $or: [
         { username: new RegExp(req.query.search, 'i') },
@@ -107,7 +112,23 @@ exports.searchUsers = async (req, res) => {
     }, '-password');
     console.log(users);
     
-    res.render('users/index', { users, pages: 1, current: 1 });
+    res.render('users/index', { users, pages: 1, current: 1, roles });
+  } catch (error) {
+    res.status(500).send('Error searching users');
+  }
+};
+
+exports.filterUsers = async (req, res) => {
+  try {
+    const roleF = req.query.role;
+
+    const usersRole = await User.find({}, 'role');
+    const roles = usersRole.map(user => user.role);   
+    
+    const users = await User.find({role: roleF}, '-password');
+    console.log(users);
+    
+    res.render('users/index', { users, pages: 1, current: 1, roles });
   } catch (error) {
     res.status(500).send('Error searching users');
   }

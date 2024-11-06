@@ -43,11 +43,17 @@
                             <button type="submit" class="btn btn-secondary">Search</button>
                         </form>
 
-                        <form action="/api/inventory/search" method="GET" class="form-inline">
+                        <form action="/api/users/filter" method="GET" class="form-inline">
                             <div class="ml-auto" style="margin-left: 800px;">
-                                <select class="form-control" name="group" onchange="this.form.submit()">
+                                <select class="form-control" name="role" onchange="this.form.submit()">
                                     <option value="">-- Filter Status --</option>
-                                    <!-- Add group options here -->
+                                    <% if (roles.length > 0) { %>
+                                        <% roles.forEach(role => { %>
+                                            <option value="<%= role %>"><%= role %></option>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <li>No roles found.</li>
+                                    <% } %>
                                 </select>
                             </div>
                         </form>

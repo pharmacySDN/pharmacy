@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../common/header'); %>
+<head>
+
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+            font-size: 26px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .detail-item {
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item label {
+            font-weight: bold;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .detail-item p {
+            font-size: 18px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .edit-button,
+        .delete-button {
+            padding: 10px 20px;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .edit-button {
+            background-color: #28a745;
+        }
+
+        .edit-button:hover {
+            background-color: #218838;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body class="sidebar-mini fixed">
+    <div class="wrapper">
+                  <!-- Navbar-->
+                  <%- include('../common/nav'); %>
+                  <!-- Side-Nav-->
+                  <%- include('../common/side_nav'); %>
+        <div class="content-wrapper">
+           <div class="container-fluid">
+            <h1>Prescription Details</h1>
+    
+            <div class="container">
+                <!-- Prescription Name Section -->
+                <div class="detail-item mb-4">
+                    <label for="name" class="font-weight-bold">Name:</label>
+                    <p id="name" class="ml-2"><%= prescription.name %></p>
+                </div>
+            
+                <!-- Products Table Section -->
+                <h3>Products:</h3>
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% prescription.product.forEach(prod => { %>
+                            <tr>
+                                <td><%= prod.product.name %></td>
+                                <td><%= prod.quantity %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+    
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="/api/prescriptions/edit/<%= prescription._id %>">Edit</a>
+                <form action="/api/prescriptions/delete/<%= prescription._id %>" method="POST" style="display:inline;">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </div>
+    
+            <!-- Back to Product List Link -->
+            <a href="/api/prescriptions" class="back-link">Back to prescription List</a>
+           </div>
+        </div>
+    </div>
+       
+    <%- include('../common/script'); %>
+</body>
+</html>
